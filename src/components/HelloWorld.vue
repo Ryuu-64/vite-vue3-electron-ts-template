@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useCounterStore } from "../store/counter";
+import {ref} from "vue";
+import {storeToRefs} from "pinia";
+import {useCounterStore} from "../store/counter";
+
 defineProps<{ msg: string }>();
 
-const { count } = storeToRefs(useCounterStore());
+const {count} = storeToRefs(useCounterStore());
 const filePath = ref(null);
 const openFile = async () => {
   //@ts-ignore
@@ -49,7 +50,7 @@ const openFile = async () => {
   </p>
   <!-- route outlet -->
   <!-- component matched by the route will render here -->
-  <router-view />
+  <router-view/>
 </template>
 
 <style scoped>
@@ -68,9 +69,11 @@ code {
   border-radius: 4px;
   color: #304455;
 }
+
 .routerlink {
   margin: 0 10px;
 }
+
 #examples {
   margin: 10px;
   display: flex;

@@ -9,6 +9,7 @@ import HelloWorld from "./components/HelloWorld.vue";
   <img alt="TS logo" width="120" src="./assets/ts.png"/>
   <HelloWorld msg="Vite + Vue 3 + Electron + TypeScript"/>
   <br/>
+  <el-button>Default</el-button>
   <p class="plugins">Plugins</p>
   <img alt="vue router logo" width="120" src="./assets/vueRouter.png"/>
   <img alt="pinia logo" width="120" src="./assets/pinia.svg"/>

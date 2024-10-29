@@ -9,8 +9,8 @@ import 'element-plus/dist/index.css';
 
 const app = createApp(App);
 
-app.use(createPinia()); //use pinia
-app.use(router); //use router
+app.use(createPinia());
+app.use(router);
 
 app.use(ElementPlus);
 

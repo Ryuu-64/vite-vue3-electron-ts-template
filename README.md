@@ -1,6 +1,6 @@
 # Vite+Vue3+Electron+Typescript template
 
-![screenshot](./src/assets/screenshot.png)
+![screenshot](src/assets/images/screenshot.png)
 
 ## Get Started
 

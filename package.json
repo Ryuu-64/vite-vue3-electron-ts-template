@@ -16,7 +16,7 @@
     "app:preview": "npm run vite:build && tsc && electron ."
   },
   "build": {
-    "appId": "YourAppID",
+    "appId": "bookmarks",
     "asar": true,
     "directories": {
       "buildResources": "assets",
@@ -50,8 +50,10 @@
     }
   },
   "dependencies": {
-    "vue": "^3.5.12",
-    "element-plus": "^2.7.0"
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/shared": "^11.1.0",
+    "element-plus": "^2.7.0",
+    "vue": "^3.5.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.4",

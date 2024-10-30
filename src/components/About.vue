@@ -1,5 +1,5 @@
 <script setup>
-import imageUrl from "../../src/assets/imgs/about.png";
+import imageUrl from "../assets/images/about.png";
 </script>
 <template>
   <div style="background-color: beige">

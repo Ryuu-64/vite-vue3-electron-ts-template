@@ -1,8 +1,8 @@
 {
   "name": "vite-vue3-electron-ts-template",
   "private": true,
-  "version": "0.0.1",
-  "author": "Your Name",
+  "version": "0.1.0",
+  "author": "ryuu",
   "main": "dist/electron/main/main.js",
   "scripts": {
     "database:init": "npx prisma migrate dev --name init",
@@ -55,20 +55,20 @@
     "@prisma/client": "^5.21.1",
     "@vueuse/core": "^11.1.0",
     "@vueuse/shared": "^11.1.0",
-    "element-plus": "^2.7.0",
+    "element-plus": "^2.8.6",
     "sqlite3": "^5.1.7",
     "vue": "^3.5.12"
   },
   "devDependencies": {
-    "prisma": "^5.21.1",
-    "@vitejs/plugin-vue": "^2.3.4",
-    "concurrently": "^7.6.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "concurrently": "^9.0.1",
     "electron": "^33.0.2",
-    "electron-builder": "^24.13.3",
-    "pinia": "^2.2.4",
-    "typescript": "^4.9.5",
-    "vite": "^2.9.18",
+    "electron-builder": "^25.1.8",
+    "pinia": "^2.2.5",
+    "prisma": "^5.21.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
     "vue-router": "^4.4.5",
-    "vue-tsc": "^0.34.7"
+    "vue-tsc": "^2.1.10"
   }
 }

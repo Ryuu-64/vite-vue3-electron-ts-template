@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import HelloWorld from "./components/HelloWorld.vue";
 import DarkMode from "./components/DarkMode.vue";
-
-const createUser = async () => {
-  // @ts-ignore
-  const user = await window.electronAPI.createUser('111', '111');
-  console.log("User created:", user);
-}
+import Prisma from "./components/Prisma.vue";
 </script>
 
 <template>
   <hello-world msg="Vite + Vue 3 + Electron + TypeScript"/>
   <dark-mode/>
-  <button @click="createUser()">createUser</button>
+  <prisma/>
 </template>
 
 <style>

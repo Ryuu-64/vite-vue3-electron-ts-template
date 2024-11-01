@@ -5,6 +5,9 @@ import {
     ipcMain,
     dialog
 } from 'electron';
+import {PrismaClient} from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const isDev = process.env.npm_lifecycle_event === "app:dev";
 
@@ -18,9 +21,10 @@ async function handleFileOpen() {
 function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1920,
+        height: 1080,
         webPreferences: {
+            sandbox: false,
             preload: join(__dirname, '../preload/preload.js'),
         },
     });
@@ -28,6 +32,7 @@ function createWindow() {
     // and load the index.html of the app.
     if (isDev) {
         mainWindow.loadURL('http://localhost:3000');
+        mainWindow.webContents.openDevTools();
     } else {
         mainWindow.loadFile(join(__dirname, '../../index.html'));
     }
@@ -59,4 +64,29 @@ app.on('window-all-closed', () => {
     }
 
     app.quit();
+});
+
+ipcMain.handle('createUser', async (event, name, email) => {
+    try {
+        return await prisma.user.create({
+            data: {
+                name,
+                email,
+            },
+        });
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw error; // 抛出错误以便渲染进程可以捕获
+    }
+});
+
+ipcMain.handle('getUser', async (event, id: number) => {
+    try {
+        return await prisma.user.findUnique({
+            where: {id},
+        });
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        throw error; // 抛出错误以便渲染进程可以捕获
+    }
 });

@@ -14,5 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    openFile: () => ipcRenderer.invoke('dialog:openFile')
+    openFile: () => ipcRenderer.invoke('dialog:openFile'),
+    createUser: (name: string, email: string) => ipcRenderer.invoke('createUser', name, email),
+    getUser: (id: number) => ipcRenderer.invoke('getUser', id)
 });

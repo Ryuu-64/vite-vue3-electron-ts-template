@@ -5,12 +5,13 @@ import Prisma from "./components/Prisma.vue";
 </script>
 
 <template>
-  <hello-world msg="Vite + Vue 3 + Electron + TypeScript"/>
+  <hello-world/>
   <dark-mode/>
   <prisma/>
 </template>
 
 <style>
+/*noinspection CssUnusedSymbol*/
 #app {
   text-align: center;
 }

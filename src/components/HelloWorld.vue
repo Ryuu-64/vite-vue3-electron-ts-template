@@ -3,8 +3,6 @@ import {ref} from "vue";
 import {storeToRefs} from "pinia";
 import {useCounterStore} from "../store/counter";
 
-defineProps<{ msg: string }>();
-
 const {count} = storeToRefs(useCounterStore());
 const filePath = ref(null);
 const openFile = async () => {
@@ -14,7 +12,7 @@ const openFile = async () => {
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <h1>"Vite + Vue 3 + Electron + TypeScript"</h1>
 
   <p>
     Recommended IDE setup:

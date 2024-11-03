@@ -4,6 +4,11 @@ import About from "../components/About.vue";
 
 const routes = [
     {
+        path: "/",
+        name: "",
+        component: Home,
+    },
+    {
         path: "/home",
         name: "Home",
         component: Home,

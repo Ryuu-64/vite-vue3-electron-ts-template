@@ -1,0 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var vue_1 = require("vue");
+var pinia_1 = require("pinia");
+var App_vue_1 = require("./App.vue");
+var index_1 = require("./router/index");
+var element_plus_1 = require("element-plus");
+require("element-plus/dist/index.css");
+require("element-plus/theme-chalk/dark/css-vars.css");
+var app = (0, vue_1.createApp)(App_vue_1.default);
+app.use((0, pinia_1.createPinia)());
+app.use(index_1.default);
+app.use(element_plus_1.default);
+app.mount('#app');

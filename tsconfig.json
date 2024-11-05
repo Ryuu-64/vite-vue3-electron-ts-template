@@ -21,14 +21,11 @@
       ]
     },
     "skipLibCheck": true,
-    "outDir": "dist/",
+    "outDir": "dist/electron",
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/electron/**/*",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.vue"
+    "src/electron/**/*"
   ],
   "references": [
     {

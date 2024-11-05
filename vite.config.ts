@@ -15,7 +15,7 @@ export default defineConfig({
         rollupOptions: {
             input: './src/vue/index.html',
         },
-        outDir: path.resolve(__dirname, 'dist')
+        outDir: path.resolve(__dirname, 'dist'),
     },
     server: {
         hmr: {

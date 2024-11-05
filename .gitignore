@@ -9,7 +9,6 @@ lerna-debug.log*
 
 release
 node_modules
-dist
 dist-ssr
 *.local
 
@@ -28,3 +27,13 @@ dist-ssr
 # Ignore SQLite database
 *.db
 *.db-journal
+
+# Ignore auto-generated Vite config
+vite.config.js
+vite.config.d.ts
+
+# Ignore build output
+dist/
+
+# Ignore TypeScript build info files
+*.tsbuildinfo

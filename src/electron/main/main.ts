@@ -1,22 +1,13 @@
 import {join} from 'path';
 import {
     app,
-    BrowserWindow,
-    ipcMain,
-    dialog
+    BrowserWindow
 } from 'electron';
-import {PrismaClient} from "@prisma/client";
-
-const prisma = new PrismaClient();
+import {setupBookmarkService} from '../service/bookmarkService';
+import {setupFileService} from '../service/fileService';
 
 const isDev = process.env.npm_lifecycle_event === "app:dev";
 
-async function handleFileOpen() {
-    const {canceled, filePaths} = await dialog.showOpenDialog({title: "Open File"});
-    if (!canceled) {
-        return filePaths[0];
-    }
-}
 
 function createWindow() {
     // Create the browser window.
@@ -42,7 +33,8 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-    ipcMain.handle('dialog:openFile', handleFileOpen);
+    setupBookmarkService();
+    setupFileService();
     createWindow();
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the
@@ -64,29 +56,4 @@ app.on('window-all-closed', () => {
     }
 
     app.quit();
-});
-
-ipcMain.handle('createUser', async (event, name, email) => {
-    try {
-        return await prisma.user.create({
-            data: {
-                name,
-                email,
-            },
-        });
-    } catch (error) {
-        console.error('Error creating user:', error);
-        throw error; // 抛出错误以便渲染进程可以捕获
-    }
-});
-
-ipcMain.handle('getUser', async (event, id: number) => {
-    try {
-        return await prisma.user.findUnique({
-            where: {id},
-        });
-    } catch (error) {
-        console.error('Error fetching user:', error);
-        throw error; // 抛出错误以便渲染进程可以捕获
-    }
 });

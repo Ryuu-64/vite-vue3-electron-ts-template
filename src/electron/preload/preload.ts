@@ -15,6 +15,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
 contextBridge.exposeInMainWorld('electronAPI', {
     openFile: () => ipcRenderer.invoke('dialog:openFile'),
-    createUser: (name: string, email: string) => ipcRenderer.invoke('createUser', name, email),
-    getUser: (id: number) => ipcRenderer.invoke('getUser', id)
+    createBookmark:
+        (
+            id: number, url: string, name: string, description: string,
+            createdAt: Date, updatedAt: Date, categoryId: number, tags: string
+        ) =>
+            ipcRenderer.invoke(
+                'createBookmark',
+                id, url, name, description, createdAt, updatedAt, categoryId, tags
+            ),
+    findBookmark: (id: number) => ipcRenderer.invoke('findBookmark', id),
+    findAllBookmarks: () => ipcRenderer.invoke('findAllBookmarks')
 });

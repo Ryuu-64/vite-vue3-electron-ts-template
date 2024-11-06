@@ -14,25 +14,25 @@ datasource db {
 }
 
 model Bookmark {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   url         String   @unique
   name        String
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
-  categoryId  Int
+  categoryId  String
   tags        Tag[]    @relation("BookmarkTags")
   Category    Category @relation("BookmarkCategory", fields: [categoryId], references: [id])
 }
 
 model Category {
-  id        Int        @id @default(autoincrement())
+  id        String     @id @default(uuid())
   name      String
   bookmarks Bookmark[] @relation("BookmarkCategory")
 }
 
 model Tag {
-  id        Int        @id @default(autoincrement())
+  id        String     @id @default(uuid())
   name      String
   bookmarks Bookmark[] @relation("BookmarkTags")
 }

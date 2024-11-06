@@ -13,7 +13,7 @@ export default defineConfig({
     },
     build: {
         rollupOptions: {
-            input: './src/vue/index.html',
+            input: './src/vue/index.html'
         },
         outDir: path.resolve(__dirname, 'dist')
     },

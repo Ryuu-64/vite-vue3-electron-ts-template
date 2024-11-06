@@ -52,20 +52,22 @@
     }
   },
   "dependencies": {
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^5.22.0",
     "@vueuse/core": "^11.1.0",
     "@vueuse/shared": "^11.1.0",
+    "cheerio": "^1.0.0",
     "element-plus": "^2.8.6",
     "sqlite3": "^5.1.7",
     "vue": "^3.5.12"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.35",
     "@vitejs/plugin-vue": "^5.1.4",
     "concurrently": "^9.0.1",
     "electron": "^33.0.2",
     "electron-builder": "^25.1.8",
     "pinia": "^2.2.5",
-    "prisma": "^5.21.1",
+    "prisma": "^5.22.0",
     "typescript": "^5.6.3",
     "vite": "^5.4.10",
     "vue-router": "^4.4.5",

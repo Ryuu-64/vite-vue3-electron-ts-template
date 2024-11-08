@@ -5,6 +5,7 @@ import {
 } from 'electron';
 import {setupBookmarkService} from '../service/bookmarkService';
 import {setupFileService} from '../service/fileService';
+import {setupCheerioService} from '../service/cheerioService';
 
 const isDev = process.env.npm_lifecycle_event === "app:dev";
 
@@ -35,6 +36,7 @@ function createWindow() {
 app.whenReady().then(() => {
     setupBookmarkService();
     setupFileService();
+    setupCheerioService();
     createWindow();
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the

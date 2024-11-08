@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import {Bookmark} from "@prisma/client";
 
 const createBookmark = async () => {
   //@ts-ignore
-  const bookmark: Bookmark = await window.electronAPI.createBookmark('111', '111');
+  const bookmark = await window.electronAPI.createBookmark('111', '111');
   console.log(bookmark);
 };
 
 const findBookmark = async () => {
   //@ts-ignore
-  const bookmark: Bookmark = await window.electronAPI.findBookmark(1);
+  const bookmark = await window.electronAPI.findBookmark('1');
   console.log(bookmark);
 };
 
 const findAllBookmarks = async () => {
   //@ts-ignore
-  const users: Bookmark[] = await window.electronAPI.findAllBookmarks();
+  const users = await window.electronAPI.findAllBookmarks();
   console.log(users);
 };
 </script>

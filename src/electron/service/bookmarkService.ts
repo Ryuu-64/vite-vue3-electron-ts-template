@@ -1,5 +1,5 @@
 import {ipcMain} from "electron";
-import {PrismaClient, Bookmark} from "@prisma/client";
+import {PrismaClient, Tag} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,8 @@ export const setupBookmarkService = () => {
         'createBookmark',
         async (
             event,
-            id, url, name, description, createdAt, updatedAt, categoryId, tags
+            id: string, url: string, name: string, description: string,
+            createdAt: Date, updatedAt: Date, categoryId: string, tags: Tag[]
         ) => {
             try {
                 return await prisma.bookmark.create({
@@ -20,7 +21,12 @@ export const setupBookmarkService = () => {
                         createdAt,
                         updatedAt,
                         categoryId,
-                        tags,
+                        tags: {
+                            connectOrCreate: tags.map(tag => ({
+                                where: {id: tag.id ?? ''},
+                                create: {name: tag.name}
+                            }))
+                        }
                     }
                 });
             } catch (error) {
@@ -33,7 +39,7 @@ export const setupBookmarkService = () => {
     ipcMain.handle(
         'findBookmark',
         async (
-            event, id: number
+            event, id: string
         ) => {
             try {
                 return await prisma.bookmark.findUnique({
@@ -48,7 +54,7 @@ export const setupBookmarkService = () => {
 
     ipcMain.handle(
         'findAllBookmarks',
-        async (event): Promise<Bookmark[]> => {
+        async (event) => {
             try {
                 return await prisma.bookmark.findMany();
             } catch (error) {

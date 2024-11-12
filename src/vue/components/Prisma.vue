@@ -17,6 +17,12 @@ const findAllBookmarks = async () => {
   const users = await window.electronAPI.findAllBookmarks();
   console.log(users);
 };
+
+const openHtmlFile = async () => {
+  //@ts-ignore
+  const {filePath, fileContent} = await window.electronAPI.openHtmlFile();
+  console.log(filePath, fileContent);
+};
 </script>
 
 <template>
@@ -26,6 +32,7 @@ const findAllBookmarks = async () => {
   <button @click="findBookmark()">findBookmark</button>
   <br/>
   <button @click="findAllBookmarks()">findAllBookmarks</button>
+  <button @click="openHtmlFile()">openFile</button>
   <el-divider></el-divider>
 </template>
 

@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    openFile: () => ipcRenderer.invoke('dialog:openFile'),
+    openHtmlFile: () => ipcRenderer.invoke('openHtmlFile'),
     createBookmark:
         (
             id: string, url: string, name: string, description: string,

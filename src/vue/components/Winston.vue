@@ -2,13 +2,13 @@
 
 const log = async () => {
   //@ts-ignore
-  await window.electronAPI.logDebug('This is a debug message.');
+  await window.electronAPI.logAPI.logDebug('This is a debug message.');
   //@ts-ignore
-  await window.electronAPI.logInfo('This is an info message.');
+  await window.electronAPI.logAPI.logInfo('This is an info message.');
   //@ts-ignore
-  await window.electronAPI.logWarn('This is a warning message.');
+  await window.electronAPI.logAPI.logWarn('This is a warning message.');
   //@ts-ignore
-  await window.electronAPI.logError('This is an error with stack trace.', new Error('Example Error'));
+  await window.electronAPI.logAPI.logError('This is an error with stack trace.', new Error('Example Error'));
 };
 </script>
 

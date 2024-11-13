@@ -4,14 +4,10 @@ import {
     BrowserWindow
 } from 'electron';
 import {setupBookmarkService} from '../service/bookmarkService';
-import {setupFileService} from '../service/fileService';
 import {setupCheerioService} from '../service/cheerioService';
 import {setupWinstonService} from '../service/winstonService';
 
-const isDev = process.env.npm_lifecycle_event === "app:dev";
-
-
-function createWindow() {
+async function createWindow() {
     // Create the browser window.
     const mainWindow = new BrowserWindow({
         width: 1920,
@@ -22,9 +18,10 @@ function createWindow() {
         },
     });
 
-    // and load the index.html of the app.
+    const isDev = process.env.npm_lifecycle_event === "app:dev";
     if (isDev) {
-        mainWindow.loadURL('http://localhost:5173');
+        await mainWindow.loadURL('http://localhost:5173');
+        mainWindow.webContents.openDevTools();
     } else {
         mainWindow.loadFile(join(__dirname, '../../index.html'));
     }
@@ -35,7 +32,6 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
     setupBookmarkService();
-    setupFileService();
     setupCheerioService();
     setupWinstonService();
     createWindow();

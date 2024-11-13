@@ -2,7 +2,7 @@
 // It has the same sandbox as a Chrome extension.
 import {contextBridge, ipcRenderer} from 'electron';
 import {Bookmark, Tag} from "@prisma/client";
-import {Logger} from "vite";
+import * as logAPI from './logAPI';
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector: any, text: any) => {
@@ -20,17 +20,8 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    logDebug: (message: any): Promise<Logger> => ipcRenderer.invoke('logDebug', message),
-    logInfo: (message: any): Promise<Logger> => ipcRenderer.invoke('logInfo', message),
-    logWarn: (message: any): Promise<Logger> => ipcRenderer.invoke('logWarn', message),
-    logError: (message: any, error: Error): Promise<Logger> => ipcRenderer.invoke('logError', message, error),
-});
-
-contextBridge.exposeInMainWorld('electronAPI', {
+    logAPI: logAPI,
     openChromeBookmark: () => ipcRenderer.invoke('openChromeBookmark'),
-});
-
-contextBridge.exposeInMainWorld('electronAPI', {
     createBookmark: (
         id: string, url: string, name: string, description: string,
         createdAt: Date, updatedAt: Date, categoryId: number, tags: Tag[]

@@ -6,11 +6,6 @@ import * as path from "node:path";
 export default defineConfig({
     root: "./src/vue",
     plugins: [vue()],
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src/vue'),
-        },
-    },
     build: {
         rollupOptions: {
             input: './src/vue/index.html'

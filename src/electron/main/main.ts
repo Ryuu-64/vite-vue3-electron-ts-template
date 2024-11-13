@@ -6,6 +6,7 @@ import {
 import {setupBookmarkService} from '../service/bookmarkService';
 import {setupFileService} from '../service/fileService';
 import {setupCheerioService} from '../service/cheerioService';
+import {setupWinstonService} from '../service/winstonService';
 
 const isDev = process.env.npm_lifecycle_event === "app:dev";
 
@@ -24,7 +25,6 @@ function createWindow() {
     // and load the index.html of the app.
     if (isDev) {
         mainWindow.loadURL('http://localhost:5173');
-        mainWindow.webContents.openDevTools();
     } else {
         mainWindow.loadFile(join(__dirname, '../../index.html'));
     }
@@ -37,6 +37,7 @@ app.whenReady().then(() => {
     setupBookmarkService();
     setupFileService();
     setupCheerioService();
+    setupWinstonService();
     createWindow();
     app.on('activate', function () {
         // On macOS it's common to re-create a window in the app when the

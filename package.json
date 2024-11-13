@@ -8,7 +8,7 @@
     "database:init": "npx prisma migrate dev --name init",
     "database:generate": "npx prisma generate",
     "vite:dev": "vite",
-    "vite:build": "vue-tsc --noEmit && vite build",
+    "vite:build": "vue-tsc --noEmit && vite build --emptyOutDir",
     "vite:preview": "vite preview",
     "ts": "tsc",
     "watch": "tsc -w",

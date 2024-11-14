@@ -22,9 +22,8 @@ export const setupWinstonService = () => {
     );
     ipcMain.handle(
         'logError',
-        async (event, message: any, error: Error): Promise<void> => {
-            logger.error(message.toString(), error)
-            // logger.error('This is an error with stack trace.', new Error('Example Error'));
+        async (event, message: string, error: Error): Promise<void> => {
+            logger.error(message, error)
         }
     );
 

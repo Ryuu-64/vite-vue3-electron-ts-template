@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const openChromeBookmark = async () => {
   //@ts-ignore
-  const {filePath, fileContent} = await window.electronAPI.openChromeBookmark();
+  const {filePath, fileContent} = await window.electronAPI.fileAPI.openChromeBookmark();
   console.log(filePath, fileContent);
 };
 </script>

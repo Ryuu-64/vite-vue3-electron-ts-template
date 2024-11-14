@@ -1,8 +1,9 @@
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
-import {contextBridge, ipcRenderer} from 'electron';
-import {Bookmark, Tag} from "@prisma/client";
+import {contextBridge} from 'electron';
 import * as logAPI from './logAPI';
+import * as bookmarkAPI from './bookmarkAPI';
+import * as fileAPI from './fileAPI';
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector: any, text: any) => {
@@ -21,14 +22,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 contextBridge.exposeInMainWorld('electronAPI', {
     logAPI: logAPI,
-    openChromeBookmark: () => ipcRenderer.invoke('openChromeBookmark'),
-    createBookmark: (
-        id: string, url: string, name: string, description: string,
-        createdAt: Date, updatedAt: Date, categoryId: number, tags: Tag[]
-    ) => ipcRenderer.invoke(
-        'createBookmark',
-        id, url, name, description, createdAt, updatedAt, categoryId, tags
-    ),
-    findBookmark: (id: string): Promise<Bookmark> => ipcRenderer.invoke('findBookmark', id),
-    findAllBookmarks: (): Promise<Bookmark> => ipcRenderer.invoke('findAllBookmarks')
+    bookmarkAPI: bookmarkAPI,
+    fileAPI: fileAPI
 });

@@ -1,5 +1,7 @@
 import * as fs from "node:fs";
 import {dialog, ipcMain} from "electron";
+import cheerio, {html} from "cheerio";
+import {loadChromeBookmark} from "./chromeBookMarkService"
 
 export const setupCheerioService = () => {
     ipcMain.handle('openChromeBookmark', async () => {
@@ -22,6 +24,8 @@ export const setupCheerioService = () => {
             // @ts-ignore
             return {error: error.message};
         }
+
+        loadChromeBookmark(fileContent);
         return {filePath, fileContent};
     });
 }

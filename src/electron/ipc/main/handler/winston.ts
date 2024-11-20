@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
 import winston from "winston";
 
-export const setupWinstonService = () => {
+export const registerWinston = () => {
     ipcMain.handle(
         'logDebug',
         async (event, message: any): Promise<void> => {

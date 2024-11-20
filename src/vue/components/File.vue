@@ -1,14 +1,13 @@
 <script setup lang="ts">
-const openChromeBookmark = async () => {
+const importChromeBookmark = async () => {
   //@ts-ignore
-  const {filePath, fileContent} = await window.electronAPI.fileAPI.openChromeBookmark();
-  console.log(filePath, fileContent);
+  await window.electronAPI.fileAPI.importChromeBookmark();
 };
 </script>
 
 <template>
   <el-divider>file</el-divider>
-  <button @click="openChromeBookmark()">openChromeBookmark</button>
+  <button @click="importChromeBookmark()">import chrome bookmark</button>
   <el-divider></el-divider>
 </template>
 

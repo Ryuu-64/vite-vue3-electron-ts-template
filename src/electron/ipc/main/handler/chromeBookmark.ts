@@ -1,6 +1,6 @@
 import {ipcMain} from "electron";
-import {loadChromeBookmark} from "../../../service/ChromeBookMarkService"
 import {getFileContent} from "../../../service/FileService"
+import {loadChromeBookmark} from "../../../service/chromeBookMarkService";
 
 export const registerChromeBookmarkImporter = () => {
     ipcMain.handle(

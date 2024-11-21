@@ -2,7 +2,7 @@ import {registerBookmarkService} from "./bookmark";
 import {registerWinston} from "./winston";
 import {registerChromeBookmarkImporter} from "./chromeBookmark";
 
-export function registerAllIPCMainHandlers() {
+export const registerAllIPCMainHandlers = () => {
     registerBookmarkService();
     registerChromeBookmarkImporter();
     registerWinston();

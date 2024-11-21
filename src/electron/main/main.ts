@@ -19,7 +19,7 @@ app.on('window-all-closed', () => {
     app.quit();
 });
 
-async function createWindow() {
+const createWindow = async () => {
     const mainWindow = new BrowserWindow({
         width: 1920,
         height: 1080,

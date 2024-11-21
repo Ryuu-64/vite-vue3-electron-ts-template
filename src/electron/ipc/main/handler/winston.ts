@@ -4,25 +4,25 @@ import winston from "winston";
 export const registerWinston = () => {
     ipcMain.handle(
         'logDebug',
-        async (event, message: any): Promise<void> => {
+        async (_event, message: any): Promise<void> => {
             logger.debug(message.toString())
         }
     );
     ipcMain.handle(
         'logInfo',
-        async (event, message: any): Promise<void> => {
+        async (_event, message: any): Promise<void> => {
             logger.info(message.toString())
         }
     );
     ipcMain.handle(
         'logWarn',
-        async (event, message: any): Promise<void> => {
+        async (_event, message: any): Promise<void> => {
             logger.warn(message.toString())
         }
     );
     ipcMain.handle(
         'logError',
-        async (event, message: string, error: Error): Promise<void> => {
+        async (_event, message: string, error: Error): Promise<void> => {
             logger.error(message, error)
         }
     );

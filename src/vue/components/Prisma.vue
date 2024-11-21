@@ -21,12 +21,12 @@ const findAllBookmarks = async () => {
 </script>
 
 <template>
-  <el-divider>prisma</el-divider>
-  <button @click="createBookmark()">createBookmark</button>
+  <el-divider>prisma book mark</el-divider>
+  <button @click="createBookmark()">create</button>
   <br/>
-  <button @click="findBookmark()">findBookmark</button>
+  <button @click="findBookmark()">find</button>
   <br/>
-  <button @click="findAllBookmarks()">findAllBookmarks</button>
+  <button @click="findAllBookmarks()">findAll</button>
   <el-divider></el-divider>
 </template>
 

@@ -8,7 +8,7 @@ import {DlContent} from "../models/chrome/bookmark/DlContent";
 export const loadChromeBookmark = (html: string) => {
     const $ = cheerio.load(html);
 
-    function parseDt(dtElement: cheerio.Element): Item {
+    const parseDt = (dtElement: cheerio.Element): Item => {
         const $dt = $(dtElement);
         const text = $dt.clone().children().remove().end().text().trim();
         const children: (Section | Item | Description | Nested)[] = [];
@@ -36,7 +36,7 @@ export const loadChromeBookmark = (html: string) => {
         return new Item(text, children);
     }
 
-    function parseDl(dlElement: cheerio.Cheerio): Item[] {
+    const parseDl = (dlElement: cheerio.Cheerio): Item[] => {
         const $dl = $(dlElement);
         const items: Item[] = [];
 
@@ -47,7 +47,7 @@ export const loadChromeBookmark = (html: string) => {
         return items;
     }
 
-    function parseBody(bodyElement: cheerio.Cheerio): DlContent {
+    const parseBody = (bodyElement: cheerio.Cheerio): DlContent => {
         const $body = $(bodyElement);
 
         const title = $body.children('h1').text().trim(); // 提取 <h1>

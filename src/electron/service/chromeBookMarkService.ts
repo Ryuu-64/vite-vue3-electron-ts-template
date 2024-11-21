@@ -4,12 +4,26 @@ import {Item} from "../models/chrome/bookmark/Item";
 import {Section} from "../models/chrome/bookmark/Section";
 import {Nested} from "../models/chrome/bookmark/Nested";
 import {DlContent} from "../models/chrome/bookmark/DlContent";
+import {Link} from "../models/chrome/bookmark/Link";
 
 export const loadChromeBookmark = (html: string) => {
     const $ = cheerio.load(html);
 
-    const parseDt = (dtElement: cheerio.Element): Item => {
+    const parseDt = (dtElement: cheerio.Element): Item | Link => {
         const $dt = $(dtElement);
+
+        // 检查是否包含 `<a>` 标签
+        const $anchor = $dt.children('a');
+        if ($anchor.length > 0) {
+            // 处理 <a> 标签，提取相关信息
+            return new Link(
+                $anchor.text().trim(),
+                $anchor.attr('href') || '',
+                $anchor.attr('add_date') || '',
+                $anchor.attr('icon') || undefined
+            );
+        }
+
         const text = $dt.clone().children().remove().end().text().trim();
         const children: (Section | Item | Description | Nested)[] = [];
 
@@ -36,9 +50,9 @@ export const loadChromeBookmark = (html: string) => {
         return new Item(text, children);
     }
 
-    const parseDl = (dlElement: cheerio.Cheerio): Item[] => {
+    const parseDl = (dlElement: cheerio.Cheerio): (Item | Link)[] => {
         const $dl = $(dlElement);
-        const items: Item[] = [];
+        const items: (Item | Link)[] = [];
 
         $dl.children('dt').each((_, dt) => {
             items.push(parseDt(dt));

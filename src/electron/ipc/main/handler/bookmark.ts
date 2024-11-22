@@ -1,6 +1,6 @@
 import {Bookmark, Tag} from "@prisma/client";
-import {create, find, findAll} from "../../../service/BookmarkService";
 import {ipcMain} from "electron";
+import {create, find, findAll} from "../../../service/bookmarkService";
 
 export const registerBookmarkService = () => {
     ipcMain.handle(

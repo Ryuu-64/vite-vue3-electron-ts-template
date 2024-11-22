@@ -1,65 +1,55 @@
 import cheerio from "cheerio";
-import {Description} from "../models/chrome/bookmark/new/Description";
-import {Anchor} from "../models/chrome/bookmark/new/Anchor";
-import {Folder} from "../models/chrome/bookmark/new/Folder";
+import {Node} from "../models/chrome/bookmark/new/Node";
 
 export const loadChromeBookmark = (html: string) => {
     const $ = cheerio.load(html);
+    let $body = $('body');
+    const node: Node = parse($body);
+    initializeBody(node, $body);
+    console.log(JSON.stringify(node, null, 2));
 
-    function parseDt(dtElement: cheerio.Element): Description {
-        const $dt = $(dtElement);
-        const description: Description = new Description();
+    function parse($dt: cheerio.Cheerio): Node {
+        const node: Node = new Node();
+        $dt.children()
+            .each(
+                (_, child) => {
+                    const $child = $(child);
+                    if ($child.is('a')) {
+                        initializeDt(node, $child);
+                        return;
+                    }
 
-        $dt.children().each((_, child) => {
-            const $child: cheerio.Cheerio = $(child);
-            if ($child.is('a')) {
-                description.anchor = new Anchor(
-                    $child.text() || '',
-                    $child.attr('href') || '',
-                    $child.attr('add_date') || '',
-                    $child.attr('icon') || ''
-                );
-                return;
-            }
+                    if ($child.is('dl')) {
+                        initializeDl(node, $dt, $child);
+                        return;
+                    }
+                }
+            );
 
-            if ($child.is('dl')) {
-                description.folder = new Folder(
-                    $dt.children('h3').text().trim(),
-                    $dt.children('h3').attr('add_date') || '',
-                    $dt.children('h3').attr('last_modified') || '',
-                    parseDl($child)
-                );
-                return;
-            }
-        });
-
-        return description;
+        return node;
     }
 
-    function parseDl(dlElement: cheerio.Cheerio): Description[] {
-        const $dl = $(dlElement);
-        const items: Description[] = [];
-
-        $dl.children('dt').each((_, dt) => {
-            items.push(parseDt(dt));
-        });
-
-        return items;
+    function initializeBody(node: Node, $body: cheerio.Cheerio) {
+        node.text = $body.children('h1').text().trim();
     }
 
-    function parseBody(bodyElement: cheerio.Cheerio): Description {
-        const $body = $(bodyElement);
-
-        const description: Description = new Description();
-        description.folder = new Folder(
-            $body.children('h1').text().trim(),
-            '',
-            '',
-            parseDl($body.children('dl').first())
-        );
-        return description;
+    function initializeDt(node: Node, $a: cheerio.Cheerio) {
+        node.text = $a.text();
+        node.href = $a.attr('href');
+        node.createAt = $a.attr('add_date');
+        node.icon = $a.attr('icon');
     }
 
-    const result: Description = parseBody($('body'));
-    console.log(JSON.stringify(result, null, 2));
+    function initializeDl(node: Node, $dt: cheerio.Cheerio, $dl: cheerio.Cheerio) {
+        const heading = $dt.children('h3');
+        node.text = heading.text().trim();
+        node.createAt = heading.attr('add_date');
+        node.updateAt = heading.attr('last_modified');
+        node.children = $dl
+            .children('dt')
+            .toArray()
+            .map(dt => $(dt))
+            .map($dt => parse($dt));
+
+    }
 };

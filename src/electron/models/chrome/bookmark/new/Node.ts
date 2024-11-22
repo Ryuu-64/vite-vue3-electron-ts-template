@@ -1,5 +1,3 @@
-import cheerio from "cheerio";
-
 export class Node {
     text?: string;
     createAt?: string;

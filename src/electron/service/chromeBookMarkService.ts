@@ -1,12 +1,22 @@
 import cheerio from "cheerio";
-import {Node} from "../models/chrome/bookmark/new/Node";
+import {Node} from "../models/chrome/bookmark/Node";
+import {Queue} from "../utils/collections/Queue";
+import {Category} from "../models/chrome/bookmark/Category";
 
 export const loadChromeBookmark = (html: string) => {
     const $ = cheerio.load(html);
-    let $body = $('body');
-    const node: Node = parse($body);
-    initializeBody(node, $body);
-    console.log(JSON.stringify(node, null, 2));
+    const rootNode = getRootNode($('body'));
+    console.log(JSON.stringify(rootNode, null, 2));
+    const rootCategory = buildCategoryTree(rootNode);
+    console.log('11111111111111111');
+    console.log(JSON.stringify(rootCategory, null, 2));
+
+
+    function getRootNode($body: cheerio.Cheerio): Node {
+        const node: Node = parse($body);
+        initializeBody(node, $body);
+        return node;
+    }
 
     function parse($dt: cheerio.Cheerio): Node {
         const node: Node = new Node();
@@ -53,3 +63,39 @@ export const loadChromeBookmark = (html: string) => {
 
     }
 };
+
+function buildCategoryTree(rootNode: Node): Category | null {
+    if (rootNode.text === undefined) {
+        return null;
+    }
+
+    const rootCategory = new Category(rootNode.text);
+    const queue = new Queue<{ node: Node; category: Category }>();
+    queue.enqueue({node: rootNode, category: rootCategory});
+    while (!queue.isEmpty()) {
+        const {node, category} = queue.dequeue()!;
+
+        if (node?.children === undefined) {
+            continue;
+        }
+
+        for (let childNode of node.children) {
+            if (childNode?.text === undefined) {
+                continue;
+            }
+
+            if (childNode?.children === undefined) {
+                continue;
+            }
+
+            const childCategory = new Category(childNode.text);
+            if (category.children === undefined) {
+                category.children = [];
+            }
+            category.children.push(childCategory);
+            queue.enqueue({node: childNode, category: childCategory});
+        }
+    }
+
+    return rootCategory;
+}

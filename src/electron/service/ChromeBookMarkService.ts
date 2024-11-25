@@ -8,9 +8,7 @@ export const loadChromeBookmark = (html: string) => {
     const rootNode = getRootNode($('body'));
     console.log(JSON.stringify(rootNode, null, 2));
     const rootCategory = buildCategoryTree(rootNode);
-    console.log('11111111111111111');
     console.log(JSON.stringify(rootCategory, null, 2));
-
 
     function getRootNode($body: cheerio.Cheerio): Node {
         const node: Node = parse($body);
@@ -98,4 +96,8 @@ function buildCategoryTree(rootNode: Node): Category | null {
     }
 
     return rootCategory;
+}
+
+function createCategories(rootCategory: Category) {
+
 }

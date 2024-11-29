@@ -1,8 +1,7 @@
 export class Category {
-    text: string;
+    id?: string;
+    name?: string;
+    parentId?: string;
+    parent?: Category;
     children?: Category[];
-
-    constructor(text: string) {
-        this.text = text;
-    }
 }

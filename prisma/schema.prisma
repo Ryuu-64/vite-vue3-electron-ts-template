@@ -28,9 +28,8 @@ model Bookmark {
 model Category {
   id        String     @id @default(uuid())
   name      String
-  path      String
-  parentId  String
-  parent    Category   @relation("CategoryParent", fields: [parentId], references: [id])
+  parentId  String?
+  parent    Category?  @relation("CategoryParent", fields: [parentId], references: [id])
   children  Category[] @relation("CategoryParent")
   bookmarks Bookmark[] @relation("BookmarkCategory")
 

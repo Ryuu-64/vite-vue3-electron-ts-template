@@ -1,14 +1,13 @@
-import {Bookmark, PrismaClient, Tag} from "@prisma/client";
+import {Bookmark, Tag} from "@prisma/client";
+import {prisma} from "../component/Prisma";
 
 class BookmarkService {
-    private readonly prisma = new PrismaClient();
-
     async create(
         id: string, url: string, name: string, description: string,
         createdAt: Date, updatedAt: Date, categoryId: string, tags: Tag[]
     ): Promise<Bookmark> {
         try {
-            return await this.prisma.bookmark.create({
+            return await prisma.bookmark.create({
                 data: {
                     id, url, name, description,
                     createdAt, updatedAt,
@@ -26,9 +25,9 @@ class BookmarkService {
         }
     }
 
-    async find(id: string): Promise<Bookmark | null> {
+    async findOne(id: string): Promise<Bookmark | null> {
         try {
-            return await this.prisma.bookmark.findUnique({
+            return await prisma.bookmark.findUnique({
                 where: {id},
             });
         } catch (error) {
@@ -38,11 +37,11 @@ class BookmarkService {
 
     async findAll(): Promise<Bookmark[] | null> {
         try {
-            return await this.prisma.bookmark.findMany();
+            return await prisma.bookmark.findMany();
         } catch (error) {
             throw error;
         }
     }
 }
 
-export const bookmarkService = new BookmarkService();
+export const service = new BookmarkService();

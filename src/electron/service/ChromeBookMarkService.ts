@@ -120,7 +120,7 @@ class ChromeBookMarkService {
                 continue;
             }
 
-            const categoryData: CategoryData = await categoryService.create(category?.name, undefined)
+            const categoryData: CategoryData = await categoryService.create(category?.name, undefined);
             category.id = categoryData.id;
 
             if (category.children === undefined) {
@@ -132,10 +132,10 @@ class ChromeBookMarkService {
                     continue;
                 }
 
-                const categoryData: CategoryData = await categoryService.create(child?.name, category.id)
+                const categoryData: CategoryData = await categoryService.create(child?.name, category.id);
                 child.id = categoryData.id;
 
-                queue.enqueue(child)
+                queue.enqueue(child);
             }
         }
     }

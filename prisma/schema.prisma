@@ -28,12 +28,21 @@ model Bookmark {
 model Category {
   id        String     @id @default(uuid())
   name      String
-  parentId  String?
-  parent    Category?  @relation("CategoryParent", fields: [parentId], references: [id])
-  children  Category[] @relation("CategoryParent")
   bookmarks Bookmark[] @relation("BookmarkCategory")
 
-  @@index([parentId])
+  ancestorRelations   CategoryClosure[] @relation("ClosureAncestor")
+  descendantRelations CategoryClosure[] @relation("ClosureDescendant")
+}
+
+model CategoryClosure {
+  ancestorId   String // ID of the ancestor category
+  descendantId String // ID of the descendant category
+  depth        Int // Depth between ancestor and descendant
+
+  ancestor   Category @relation("ClosureAncestor", fields: [ancestorId], references: [id])
+  descendant Category @relation("ClosureDescendant", fields: [descendantId], references: [id])
+
+  @@id([ancestorId, descendantId]) // Composite primary key
 }
 
 model Tag {

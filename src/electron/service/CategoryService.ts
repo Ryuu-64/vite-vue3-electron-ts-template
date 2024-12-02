@@ -1,15 +1,16 @@
-import {Category} from "@prisma/client";
+import {Prisma, Category} from "@prisma/client";
 import {prisma} from "../component/Prisma";
+import TransactionClient = Prisma.TransactionClient;
 
 class CategoryService {
     async create(name: string, parentId?: string): Promise<Category> {
-        async function insertCategoryNode(name: string): Promise<Category> {
+        async function insertCategoryNode(prisma: TransactionClient, name: string): Promise<Category> {
             return prisma.category.create({
                 data: {name}
             });
         }
 
-        async function insertSelfClosureRelation(categoryId: string) {
+        async function insertSelfClosureRelation(prisma: TransactionClient, categoryId: string) {
             return prisma.categoryClosure.create({
                 data: {
                     ancestorId: categoryId,
@@ -19,7 +20,7 @@ class CategoryService {
             });
         }
 
-        async function insertParentClosureRelations(newCategoryId: string, parentId: string) {
+        async function insertParentClosureRelations(prisma: TransactionClient, newCategoryId: string, parentId: string) {
             const parentRelations =
                 await prisma.categoryClosure.findMany({
                     where: {descendantId: parentId}
@@ -37,17 +38,19 @@ class CategoryService {
             return prisma.categoryClosure.createMany({data: closureData});
         }
 
-        return prisma.$transaction(async () => {
-            const newCategory = await insertCategoryNode(name);
+        return prisma.$transaction(
+            async (prisma: Prisma.TransactionClient) => {
+                const category: Category = await insertCategoryNode(prisma, name);
 
-            await insertSelfClosureRelation(newCategory.id);
+                await insertSelfClosureRelation(prisma, category.id);
 
-            if (parentId) {
-                await insertParentClosureRelations(newCategory.id, parentId);
+                if (parentId !== undefined) {
+                    await insertParentClosureRelations(prisma, category.id, parentId);
+                }
+
+                return category;
             }
-
-            return newCategory;
-        });
+        )
     }
 
     async findOne(id: string): Promise<Category | null> {

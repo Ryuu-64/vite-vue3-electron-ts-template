@@ -4,18 +4,20 @@ import {Queue} from "../utils/collections/Queue";
 import {Category} from "../models/chrome/bookmark/Category";
 import {Category as CategoryData} from "@prisma/client";
 import {service as categoryService} from "./CategoryService";
+import {logger} from "../component/Logger";
 
 class ChromeBookMarkService {
-    loadChromeBookmark(html: string) {
+    async loadChromeBookmark(html: string) {
         const $ = cheerio.load(html);
         const rootNode = getRootNode($('body'));
-        console.log(JSON.stringify(rootNode, null, 2));
-        const rootCategory = this.buildCategoryTree(rootNode);
-        console.log(JSON.stringify(rootCategory, null, 2));
+        const rootCategory = buildCategoryTree(rootNode);
         if (rootCategory === null) {
             return;
         }
-        this.createCategories(rootCategory);
+
+        await this.createCategories(rootCategory)
+
+        logger.debug("createCategories");
 
         function getRootNode($body: cheerio.Cheerio): Node {
             const node: Node = parse($body);
@@ -66,50 +68,50 @@ class ChromeBookMarkService {
                 .map(dt => $(dt))
                 .map($dt => parse($dt));
         }
+
+        function buildCategoryTree(rootNode: Node): Category | null {
+            if (rootNode.text === undefined) {
+                return null;
+            }
+
+            const rootCategory = new Category();
+            rootCategory.name = rootNode.text;
+            const queue = new Queue<{ node: Node; category: Category }>();
+            queue.enqueue({node: rootNode, category: rootCategory});
+            while (!queue.isEmpty()) {
+                const {node, category} = queue.dequeue()!;
+
+                if (node?.children === undefined) {
+                    continue;
+                }
+
+                for (let childNode of node.children) {
+                    if (childNode?.text === undefined) {
+                        continue;
+                    }
+
+                    if (childNode?.children === undefined) {
+                        continue;
+                    }
+
+                    const childCategory = new Category();
+                    childCategory.name = childNode.text;
+                    if (category.children === undefined) {
+                        category.children = [];
+                    }
+                    category.children.push(childCategory);
+                    queue.enqueue({node: childNode, category: childCategory});
+                }
+            }
+
+            return rootCategory;
+        }
     };
-
-    private buildCategoryTree(rootNode: Node): Category | null {
-        if (rootNode.text === undefined) {
-            return null;
-        }
-
-        const rootCategory = new Category();
-        rootCategory.name = rootNode.text;
-        const queue = new Queue<{ node: Node; category: Category }>();
-        queue.enqueue({node: rootNode, category: rootCategory});
-        while (!queue.isEmpty()) {
-            const {node, category} = queue.dequeue()!;
-
-            if (node?.children === undefined) {
-                continue;
-            }
-
-            for (let childNode of node.children) {
-                if (childNode?.text === undefined) {
-                    continue;
-                }
-
-                if (childNode?.children === undefined) {
-                    continue;
-                }
-
-                const childCategory = new Category();
-                childCategory.name = childNode.text;
-                childCategory.parent = category;
-                if (category.children === undefined) {
-                    category.children = [];
-                }
-                category.children.push(childCategory);
-                queue.enqueue({node: childNode, category: childCategory});
-            }
-        }
-
-        return rootCategory;
-    }
 
     private async createCategories(rootCategory: Category) {
         const queue = new Queue<Category>();
         queue.enqueue(rootCategory);
+        let lastCategory: Category | undefined
         while (!queue.isEmpty()) {
             const category: Category | undefined = queue.dequeue();
             if (category === undefined) {
@@ -120,8 +122,9 @@ class ChromeBookMarkService {
                 continue;
             }
 
-            const categoryData: CategoryData = await categoryService.create(category?.name, undefined);
+            const categoryData: CategoryData = await categoryService.create(category.name, lastCategory?.id);
             category.id = categoryData.id;
+            lastCategory = category;
 
             if (category.children === undefined) {
                 continue;
@@ -131,9 +134,6 @@ class ChromeBookMarkService {
                 if (child.name === undefined) {
                     continue;
                 }
-
-                const categoryData: CategoryData = await categoryService.create(child?.name, category.id);
-                child.id = categoryData.id;
 
                 queue.enqueue(child);
             }

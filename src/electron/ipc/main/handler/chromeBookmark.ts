@@ -11,11 +11,7 @@ export const registerChromeBookmarkImporter = () => {
                 return;
             }
 
-            try {
-                service.loadChromeBookmark(fileContent);
-            } catch (error) {
-                throw error;
-            }
+            await service.loadChromeBookmark(fileContent);
         }
     );
 };

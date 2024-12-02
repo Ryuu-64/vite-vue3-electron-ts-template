@@ -1,7 +1,20 @@
 <script setup lang="ts">
+import {ElLoading, ElMessage} from 'element-plus'
+
 const importChromeBookmark = async () => {
+  const loading = ElLoading.service({
+    lock: true
+  })
+  setTimeout(
+      () => {
+        ElMessage.error('import chrome bookmark timeout.')
+        loading.close();
+      },
+      5_000
+  )
   //@ts-ignore
   await window.electronAPI.fileAPI.importChromeBookmark();
+  loading.close();
 };
 </script>
 

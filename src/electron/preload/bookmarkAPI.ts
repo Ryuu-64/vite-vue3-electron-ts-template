@@ -1,15 +1,21 @@
 import {ipcRenderer} from "electron";
 import {Bookmark, Tag} from "@prisma/client";
 
-export const createBookmark =
-    (
-        id: string, url: string, name: string, description: string,
-        createdAt: Date, updatedAt: Date, categoryId: number, tags: Tag[]
-    ) => ipcRenderer.invoke(
+export async function createBookmark
+(
+    id: string, url: string, name: string, description: string,
+    createdAt: Date, updatedAt: Date, categoryId: number, tags: Tag[]
+): Promise<Bookmark> {
+    return await ipcRenderer.invoke(
         'createBookmark',
         id, url, name, description, createdAt, updatedAt, categoryId, tags
     );
-export const findBookmark =
-    (id: string): Promise<Bookmark> => ipcRenderer.invoke('findBookmark', id);
-export const findAllBookmarks =
-    (): Promise<Bookmark> => ipcRenderer.invoke('findAllBookmarks');
+}
+
+export async function findBookmark(id: string): Promise<Bookmark | null> {
+    return await ipcRenderer.invoke('findBookmark', id);
+}
+
+export async function findAllBookmarks(): Promise<Bookmark[] | null> {
+    return await ipcRenderer.invoke('findAllBookmarks');
+}

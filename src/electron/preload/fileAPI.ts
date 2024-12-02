@@ -1,4 +1,5 @@
 import {ipcRenderer} from "electron";
 
-export const importChromeBookmark =
-    () => ipcRenderer.invoke('importChromeBookmark');
+export async function importChromeBookmark(): Promise<boolean> {
+    return await ipcRenderer.invoke('importChromeBookmark');
+}

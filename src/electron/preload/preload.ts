@@ -4,6 +4,7 @@ import {contextBridge} from 'electron';
 import * as logAPI from './logAPI';
 import * as bookmarkAPI from './bookmarkAPI';
 import * as fileAPI from './fileAPI';
+import * as categoryAPI from './categoryAPI';
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector: any, text: any) => {
@@ -23,5 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
 contextBridge.exposeInMainWorld('electronAPI', {
     logAPI: logAPI,
     bookmarkAPI: bookmarkAPI,
+    categoryAPI: categoryAPI,
     fileAPI: fileAPI
 });

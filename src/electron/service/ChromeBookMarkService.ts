@@ -4,20 +4,18 @@ import {Queue} from "../utils/collections/Queue";
 import {Category} from "../models/chrome/bookmark/Category";
 import {Category as CategoryData} from "@prisma/client";
 import {service as categoryService} from "./CategoryService";
-import {logger} from "../component/Logger";
 
 class ChromeBookMarkService {
-    async loadChromeBookmark(html: string) {
+    async loadChromeBookmark(html: string): Promise<boolean> {
         const $ = cheerio.load(html);
         const rootNode = getRootNode($('body'));
         const rootCategory = buildCategoryTree(rootNode);
         if (rootCategory === null) {
-            return;
+            return false;
         }
 
-        await this.createCategories(rootCategory)
-
-        logger.debug("createCategories");
+        await this.createCategories(rootCategory);
+        return true;
 
         function getRootNode($body: cheerio.Cheerio): Node {
             const node: Node = parse($body);
@@ -111,7 +109,7 @@ class ChromeBookMarkService {
     private async createCategories(rootCategory: Category) {
         const queue = new Queue<Category>();
         queue.enqueue(rootCategory);
-        let lastCategory: Category | undefined
+        let lastCategory: Category | undefined;
         while (!queue.isEmpty()) {
             const category: Category | undefined = queue.dequeue();
             if (category === undefined) {

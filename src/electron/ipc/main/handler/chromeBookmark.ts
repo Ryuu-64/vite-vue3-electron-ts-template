@@ -5,13 +5,13 @@ import {service} from "../../../service/ChromeBookMarkService";
 export const registerChromeBookmarkImporter = () => {
     ipcMain.handle(
         'importChromeBookmark',
-        async (): Promise<void> => {
+        async (): Promise<boolean> => {
             const fileContent: string | null = await getFileContent();
             if (fileContent === null) {
-                return;
+                return false;
             }
 
-            await service.loadChromeBookmark(fileContent);
+            return await service.loadChromeBookmark(fileContent);
         }
     );
 };

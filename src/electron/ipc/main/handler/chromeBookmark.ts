@@ -1,17 +1,17 @@
 import {ipcMain} from "electron";
-import {getFileContent} from "../../../service/FileService";
 import {service} from "../../../service/ChromeBookMarkService";
+import {Category} from "../../../../models/Category";
 
 export const registerChromeBookmarkImporter = () => {
     ipcMain.handle(
         'importChromeBookmark',
         async (): Promise<boolean> => {
-            const fileContent: string | null = await getFileContent();
-            if (fileContent === null) {
-                return false;
-            }
-
-            return await service.loadChromeBookmark(fileContent);
+            return await service.loadChromeBookmark();
         }
+    );
+
+    ipcMain.handle(
+        'findCategoryTree',
+         (): Promise<Category[]> => service.findCategoryTree()
     );
 };

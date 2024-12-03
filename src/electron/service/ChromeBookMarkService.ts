@@ -1,12 +1,17 @@
 import cheerio from "cheerio";
 import {Node} from "../models/chrome/bookmark/Node";
 import {Queue} from "../utils/collections/Queue";
-import {Category} from "../models/chrome/bookmark/Category";
-import {Category as CategoryData} from "@prisma/client";
 import {service as categoryService} from "./CategoryService";
+import {getFileContent} from "./FileService";
+import {Category} from "../../models/Category";
 
 class ChromeBookMarkService {
-    async loadChromeBookmark(html: string): Promise<boolean> {
+    async loadChromeBookmark(): Promise<boolean> {
+        const html: string | null = await getFileContent();
+        if (html === null) {
+            return false;
+        }
+
         const $ = cheerio.load(html);
         const rootNode = getRootNode($('body'));
         const rootCategory = buildCategoryTree(rootNode);
@@ -72,7 +77,7 @@ class ChromeBookMarkService {
                 return null;
             }
 
-            const rootCategory = new Category();
+            const rootCategory: Category = {};
             rootCategory.name = rootNode.text;
             const queue = new Queue<{ node: Node; category: Category }>();
             queue.enqueue({node: rootNode, category: rootCategory});
@@ -92,7 +97,7 @@ class ChromeBookMarkService {
                         continue;
                     }
 
-                    const childCategory = new Category();
+                    const childCategory: Category = {};
                     childCategory.name = childNode.text;
                     if (category.children === undefined) {
                         category.children = [];
@@ -105,6 +110,10 @@ class ChromeBookMarkService {
             return rootCategory;
         }
     };
+
+    async findCategoryTree(): Promise<Category[]> {
+        return categoryService.findCategoryTree();
+    }
 
     private async createCategories(rootCategory: Category) {
         const queue = new Queue<Category>();
@@ -120,7 +129,7 @@ class ChromeBookMarkService {
                 continue;
             }
 
-            const categoryData: CategoryData = await categoryService.create(category.name, lastCategory?.id);
+            const categoryData: Category = await categoryService.create(category.name, lastCategory?.id);
             category.id = categoryData.id;
             lastCategory = category;
 

@@ -1,91 +1,39 @@
 <script lang="ts" setup>
+import {Category} from "../../models/Category";
+import {onMounted, reactive} from 'vue';
 
-interface Tree {
-  label: string;
-  children?: Tree[];
-}
-
-const handleNodeClick = (data: Tree) => {
-  console.log(data);
-};
-
-const data: Tree[] = [
+// 声明树的数据结构
+const data = reactive<Category[]>([]);
+const defaultProps = [
   {
-    label: 'Level one 1',
-    children: [
-      {
-        label: 'Level two 1-1',
-        children: [
-          {
-            label: 'Level three 1-1-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: 'Level one 2',
-    children: [
-      {
-        label: 'Level two 2-1',
-        children: [
-          {
-            label: 'Level three 2-1-1',
-          },
-        ],
-      },
-      {
-        label: 'Level two 2-2',
-        children: [
-          {
-            label: 'Level three 2-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: 'Level one 3',
-    children: [
-      {
-        label: 'Level two 3-1',
-        children: [
-          {
-            label: 'Level three 3-1-1',
-          },
-        ],
-      },
-      {
-        label: 'Level two 3-2',
-        children: [
-          {
-            label: 'Level three 3-2-1',
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const defaultProps: Tree[] = [
-  {
-    label: 'Level one 1',
-    children: [],
+    label: 'label',
+    children: 'children',
   }
 ];
 
-//@ts-ignore
-const newVar: any[] = await window.electronAPI.categoryAPI.findAllCategories();
-console.log(newVar);
+// 通过 onMounted 获取数据并格式化树数据
+onMounted(async () => {
+  const rootCategories: Category[] = await window.electronAPI.categoryAPI.findCategoryTree();
+  data.push(...formatTreeData(rootCategories));  // 使用 reactive 数据更新树
+  console.log(rootCategories);
+
+  // 格式化数据
+  function formatTreeData(descendants: Category[]): any[] {
+    return descendants.map(item => ({
+      id: item.id,
+      label: item.name,
+      children: item.children ? formatTreeData(item.children) : [],
+    }));
+  }
+});
 </script>
 
 <template>
   <el-divider>category</el-divider>
   <el-tree
       style="max-width: 600px"
-      :data="newVar"
+      :data="data"
       :props="defaultProps"
-      @node-click="handleNodeClick"
   />
   <el-divider></el-divider>
 </template>

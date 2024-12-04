@@ -1,10 +1,8 @@
-// All of the Node.js APIs are available in the preload process.
-// It has the same sandbox as a Chrome extension.
 import {contextBridge} from 'electron';
-import * as logAPI from './logAPI';
-import * as bookmarkAPI from './bookmarkAPI';
-import * as fileAPI from './fileAPI';
-import * as categoryAPI from './categoryAPI';
+import * as logAPI from '../ipc/renderer/logAPI';
+import * as bookmarkAPI from '../ipc/renderer/bookmarkAPI';
+import * as fileAPI from '../ipc/renderer/fileAPI';
+import * as categoryAPI from '../ipc/renderer/categoryAPI';
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector: any, text: any) => {

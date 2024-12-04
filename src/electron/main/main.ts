@@ -3,7 +3,7 @@ import {
     app,
     BrowserWindow
 } from 'electron';
-import {registerAllIPCMainHandlers} from '../ipc/main/handler';
+import {registerAllIPCMainHandlers} from '../ipc/main';
 
 app.whenReady()
     .then(() => {
@@ -36,4 +36,4 @@ const createWindow = async () => {
     } else {
         mainWindow.loadFile(join(__dirname, '../../index.html'));
     }
-}
+};

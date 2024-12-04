@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
-import {service} from "../../../service/BookmarkService";
-import {CreateBookmark, FindAllBookmark, FindBookmark} from "../../../../API/types";
-import {IpcMainInvoke} from "../invoke";
+import {service} from "../../service/BookmarkService";
+import {CreateBookmark, FindAllBookmark, FindBookmark} from "../../../API/types";
+import {IpcMainInvoke} from "./invoke";
 
 export const registerBookmarkService = () => {
     ipcMain.handle(

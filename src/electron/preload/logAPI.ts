@@ -1,18 +1,7 @@
-import {Logger} from "winston";
 import {ipcRenderer} from "electron";
+import {LogDebug, LogError, LogInfo, LogWarn} from "../../API/types";
 
-export async function logDebug(message: any): Promise<Logger> {
-    return await ipcRenderer.invoke('logDebug', message);
-}
-
-export async function logInfo(message: any): Promise<Logger> {
-    return await ipcRenderer.invoke('logInfo', message);
-}
-
-export async function logWarn(message: any): Promise<Logger> {
-    return await ipcRenderer.invoke('logWarn', message);
-}
-
-export async function logError(message: any, error: Error): Promise<Logger> {
-    return await ipcRenderer.invoke('logError', message, error);
-}
+export const logDebug: LogDebug = (...args) => ipcRenderer.invoke('logDebug', ...args);
+export const logInfo: LogInfo = (...args) => ipcRenderer.invoke('logInfo', ...args);
+export const logWarn: LogWarn = (...args) => ipcRenderer.invoke('logWarn', ...args);
+export const logError: LogError = (...args) => ipcRenderer.invoke('logError', ...args);

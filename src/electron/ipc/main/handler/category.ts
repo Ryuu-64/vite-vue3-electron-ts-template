@@ -1,12 +1,11 @@
 import {ipcMain} from "electron";
 import {service} from "../../../service/CategoryService";
-import {Category} from "../../../../models/Category";
+import {IpcMainInvoke} from "../invoke";
+import {FindAllCategories} from "../../../../API/types";
 
 export const registerCategoryService = () => {
     ipcMain.handle(
         "findAllCategories",
-        async (_event: Electron.IpcMainInvokeEvent,): Promise<Category[]> => {
-            return service.findAll();
-        }
+        ((_event, ...args) => service.findAll(...args)) as IpcMainInvoke<FindAllCategories>
     );
 };

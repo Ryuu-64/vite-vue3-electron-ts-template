@@ -1,5 +1,4 @@
 import {ipcRenderer} from "electron";
+import {ImportChromeBookmark} from "../../API/types";
 
-export async function importChromeBookmark(): Promise<boolean> {
-    return await ipcRenderer.invoke('importChromeBookmark');
-}
+export const importChromeBookmark: ImportChromeBookmark = (...args) => ipcRenderer.invoke('importChromeBookmark', ...args);

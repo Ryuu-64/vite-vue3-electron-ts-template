@@ -35,7 +35,7 @@ class BookmarkService {
         }
     }
 
-    async findAll(): Promise<Bookmark[] | null> {
+    async findAll(): Promise<Bookmark[]> {
         try {
             return await prisma.bookmark.findMany();
         } catch (error) {

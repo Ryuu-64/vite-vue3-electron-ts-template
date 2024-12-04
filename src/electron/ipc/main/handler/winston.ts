@@ -1,29 +1,23 @@
 import {ipcMain} from "electron";
 import {logger} from "../../../component/Logger";
+import {LogDebug, LogError, LogInfo, LogWarn} from "../../../../API/types";
+import {IpcMainInvoke} from "../invoke";
 
 export const registerWinston = () => {
     ipcMain.handle(
         'logDebug',
-        async (_event, message: any): Promise<void> => {
-            logger.debug(message.toString())
-        }
+        (async (_event, ...args) => logger.debug(...args)) as IpcMainInvoke<LogDebug>
     );
     ipcMain.handle(
         'logInfo',
-        async (_event, message: any): Promise<void> => {
-            logger.info(message.toString())
-        }
+        (async (_event, ...args) => logger.info(...args)) as IpcMainInvoke<LogInfo>
     );
     ipcMain.handle(
         'logWarn',
-        async (_event, message: any): Promise<void> => {
-            logger.warn(message.toString())
-        }
+        (async (_event, ...args) => logger.warn(...args)) as IpcMainInvoke<LogWarn>
     );
     ipcMain.handle(
         'logError',
-        async (_event, message: string, error: Error): Promise<void> => {
-            logger.error(message, error)
-        }
+        (async (_event, ...args) => logger.error(...args)) as IpcMainInvoke<LogError>
     );
-}
+};

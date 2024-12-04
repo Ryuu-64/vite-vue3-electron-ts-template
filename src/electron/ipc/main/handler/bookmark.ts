@@ -1,26 +1,20 @@
-import {Bookmark, Tag} from "@prisma/client";
 import {ipcMain} from "electron";
 import {service} from "../../../service/BookmarkService";
-import {CreateBookmark} from "../../../../API/types";
+import {CreateBookmark, FindAllBookmark, FindBookmark} from "../../../../API/types";
+import {IpcMainInvoke} from "../invoke";
 
 export const registerBookmarkService = () => {
     ipcMain.handle(
         'createBookmark',
-        async (
-            _event, ...args: Parameters<CreateBookmark>
-        ) => service.create(...args)
+        ((_event, ...args) => service.create(...args)) as IpcMainInvoke<CreateBookmark>
     );
 
     ipcMain.handle(
         'findBookmark',
-        async (_event: Electron.IpcMainInvokeEvent, id: string): Promise<Bookmark | null> => {
-            return await service.findOne(id);
-        }
+        ((_event, ...args) => service.findOne(...args)) as IpcMainInvoke<FindBookmark>
     );
     ipcMain.handle(
         'findAllBookmarks',
-        async (_event: Electron.IpcMainInvokeEvent): Promise<Bookmark[] | null> => {
-            return await service.findAll();
-        }
+        ((_event, ...args) => service.findAll(...args)) as IpcMainInvoke<FindAllBookmark>
     );
-}
+};

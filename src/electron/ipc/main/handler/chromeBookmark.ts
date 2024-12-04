@@ -1,17 +1,16 @@
 import {ipcMain} from "electron";
 import {service} from "../../../service/ChromeBookMarkService";
 import {FindCategoryTree, ImportChromeBookmark} from "../../../../API/types";
+import {IpcMainInvoke} from "../invoke";
 
 export const registerChromeBookmarkImporter = () => {
     ipcMain.handle(
         'importChromeBookmark',
-        (_, ...args: Parameters<ImportChromeBookmark>): ReturnType<ImportChromeBookmark> =>
-            service.loadChromeBookmark(...args)
+        ((_event, ...args) => service.loadChromeBookmark(...args)) as IpcMainInvoke<ImportChromeBookmark>
     );
 
     ipcMain.handle(
         'findCategoryTree',
-        (_, ...args: Parameters<FindCategoryTree>): ReturnType<FindCategoryTree> =>
-            service.findCategoryTree(...args)
+        ((_event, ...args) => service.findCategoryTree(...args)) as IpcMainInvoke<FindCategoryTree>
     );
 };

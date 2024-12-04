@@ -1,21 +1,16 @@
 import {Bookmark, Tag} from "@prisma/client";
 import {ipcMain} from "electron";
 import {service} from "../../../service/BookmarkService";
+import {CreateBookmark} from "../../../../API/types";
 
 export const registerBookmarkService = () => {
     ipcMain.handle(
         'createBookmark',
         async (
-            _event: Electron.IpcMainInvokeEvent,
-            id: string, url: string, name: string, description: string,
-            createdAt: Date, updatedAt: Date,
-            categoryId: string, tags: Tag[]
-        ): Promise<Bookmark> => {
-            return await service.create(
-                id, url, name, description, createdAt, updatedAt, categoryId, tags
-            );
-        }
+            _event, ...args: Parameters<CreateBookmark>
+        ) => service.create(...args)
     );
+
     ipcMain.handle(
         'findBookmark',
         async (_event: Electron.IpcMainInvokeEvent, id: string): Promise<Bookmark | null> => {

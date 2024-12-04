@@ -5,7 +5,6 @@ const importChromeBookmark = async () => {
   const loading = ElLoading.service({
     lock: true
   });
-  //@ts-ignore
   const status = await window.electronAPI.fileAPI.importChromeBookmark();
   loading.close();
   if (status) {
@@ -23,5 +22,4 @@ const importChromeBookmark = async () => {
 </template>
 
 <style scoped>
-
 </style>

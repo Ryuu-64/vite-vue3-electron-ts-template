@@ -1,21 +1,14 @@
 import {ipcRenderer} from "electron";
-import {Bookmark, Tag} from "@prisma/client";
+import {CreateBookmark, FindAllBookmark, FindBookmark} from "../../API/types";
 
-export async function createBookmark
-(
-    id: string, url: string, name: string, description: string,
-    createdAt: Date, updatedAt: Date, categoryId: number, tags: Tag[]
-): Promise<Bookmark> {
-    return await ipcRenderer.invoke(
-        'createBookmark',
-        id, url, name, description, createdAt, updatedAt, categoryId, tags
-    );
+export function createBookmark(...args: Parameters<CreateBookmark>): ReturnType<CreateBookmark> {
+    return ipcRenderer.invoke('createBookmark', ...args);
 }
 
-export async function findBookmark(id: string): Promise<Bookmark | null> {
-    return await ipcRenderer.invoke('findBookmark', id);
+export function findBookmark(...args: Parameters<FindBookmark>): ReturnType<FindBookmark> {
+    return ipcRenderer.invoke('findBookmark', ...args);
 }
 
-export async function findAllBookmarks(): Promise<Bookmark[] | null> {
-    return await ipcRenderer.invoke('findAllBookmarks');
+export function findAllBookmarks(...args: Parameters<FindAllBookmark>): ReturnType<FindAllBookmark> {
+    return ipcRenderer.invoke('findAllBookmarks', ...args);
 }

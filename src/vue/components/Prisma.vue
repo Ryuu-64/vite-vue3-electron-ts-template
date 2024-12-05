@@ -3,7 +3,7 @@
 const createBookmark = async () => {
   const bookmark = await window.electronAPI.bookmarkAPI.createBookmark(
       'test', 'test', 'test', 'test',
-      new Date(), new Date(), undefined, []
+      new Date(), new Date(), '111', []
   );
   console.log(bookmark);
 };

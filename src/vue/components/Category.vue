@@ -2,7 +2,6 @@
 import {Category} from "../../models/Category";
 import {onMounted, reactive} from 'vue';
 
-// 声明树的数据结构
 const data = reactive<Category[]>([]);
 const defaultProps = [
   {
@@ -11,14 +10,12 @@ const defaultProps = [
   }
 ];
 
-// 通过 onMounted 获取数据并格式化树数据
 onMounted(async () => {
   const rootCategories: Category[] = await window.electronAPI.categoryAPI.findCategoryTree();
-  data.push(...formatTreeData(rootCategories));  // 使用 reactive 数据更新树
+  data.push(...formatTreeData(rootCategories));
   console.log(rootCategories);
 
-  // 格式化数据
-  function formatTreeData(descendants: Category[]): any[] {
+  function formatTreeData(descendants: Category[]): Category[] {
     return descendants.map(item => ({
       id: item.id,
       label: item.name,
@@ -26,6 +23,11 @@ onMounted(async () => {
     }));
   }
 });
+
+const onNodeClick = (node: any, data: any) => {
+  console.log(node);
+  console.log(data);
+};
 </script>
 
 <template>
@@ -34,6 +36,12 @@ onMounted(async () => {
       style="max-width: 600px"
       :data="data"
       :props="defaultProps"
-  />
+  >
+    <template #default="{ node, data }">
+      <div @click="onNodeClick(node,data)">
+        {{ data.label }}
+      </div>
+    </template>
+  </el-tree>
   <el-divider></el-divider>
 </template>

@@ -118,7 +118,6 @@ class ChromeBookMarkService {
     private async createCategories(rootCategory: Category) {
         const queue = new Queue<Category>();
         queue.enqueue(rootCategory);
-        let lastCategory: Category | undefined;
         while (!queue.isEmpty()) {
             const category: Category | undefined = queue.dequeue();
             if (category === undefined) {
@@ -129,9 +128,10 @@ class ChromeBookMarkService {
                 continue;
             }
 
-            const categoryData: Category = await categoryService.create(category.name, lastCategory?.id);
-            category.id = categoryData.id;
-            lastCategory = category;
+            if (category.id === undefined) {
+                const categoryData: Category = await categoryService.create(category.name);
+                category.id = categoryData.id;
+            }
 
             if (category.children === undefined) {
                 continue;
@@ -141,6 +141,8 @@ class ChromeBookMarkService {
                 if (child.name === undefined) {
                     continue;
                 }
+                const categoryData: Category = await categoryService.create(child.name, category.id);
+                child.id = categoryData.id;
 
                 queue.enqueue(child);
             }

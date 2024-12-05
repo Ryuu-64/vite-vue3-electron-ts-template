@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
 import {service} from "../../service/CategoryService";
-import {IpcMainInvoke} from "./invoke";
-import {FindAllCategories} from "../../../API/types";
+import {IpcMainInvoke} from "../../../types/ipcMainTypes";
+import {FindAllCategories} from "../../../types/api";
 
 export const registerCategoryService = () => {
     ipcMain.handle(

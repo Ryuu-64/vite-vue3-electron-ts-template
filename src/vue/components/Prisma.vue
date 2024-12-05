@@ -1,20 +1,20 @@
 <script setup lang="ts">
 
 const createBookmark = async () => {
-  //@ts-ignore
-  const bookmark = await window.electronAPI.bookmarkAPI.createBookmark('111', '111');
+  const bookmark = await window.electronAPI.bookmarkAPI.createBookmark(
+      'test', 'test', 'test', 'test',
+      new Date(), new Date(), undefined, []
+  );
   console.log(bookmark);
 };
 
 const findBookmark = async () => {
-  //@ts-ignore
   const bookmark = await window.electronAPI.bookmarkAPI.findBookmark('1');
   console.log(bookmark);
 };
 
 const findAllBookmarks = async () => {
-  //@ts-ignore
-  const bookmarks = await window.electronAPI.bookmarkAPI.findAllBookmarks();
+  const bookmarks = await window.electronAPI.bookmarkAPI.findAllBookmark();
   console.log(bookmarks);
 };
 

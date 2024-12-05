@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
 import {service} from "../../service/ChromeBookMarkService";
-import {FindCategoryTree, ImportChromeBookmark} from "../../../API/types";
-import {IpcMainInvoke} from "./invoke";
+import {FindCategoryTree, ImportChromeBookmark} from "../../../types/api";
+import {IpcMainInvoke} from "../../../types/ipcMainTypes";
 
 export const registerChromeBookmarkImporter = () => {
     ipcMain.handle(

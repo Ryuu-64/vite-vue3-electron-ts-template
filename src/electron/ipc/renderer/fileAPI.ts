@@ -1,4 +1,4 @@
 import {ipcRenderer} from "electron";
-import {ImportChromeBookmark} from "../../../API/types";
+import {ImportChromeBookmark} from "../../../types/api";
 
 export const importChromeBookmark: ImportChromeBookmark = (...args) => ipcRenderer.invoke('importChromeBookmark', ...args);

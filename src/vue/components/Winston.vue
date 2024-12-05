@@ -1,14 +1,9 @@
 <script setup lang="ts">
-
-const log = async () => {
-  //@ts-ignore
-  await window.electronAPI.logAPI.logDebug('This is a debug message.');
-  //@ts-ignore
-  await window.electronAPI.logAPI.logInfo('This is an info message.');
-  //@ts-ignore
-  await window.electronAPI.logAPI.logWarn('This is a warning message.');
-  //@ts-ignore
-  await window.electronAPI.logAPI.logError('This is an error with stack trace.', new Error('Example Error'));
+const log = () => {
+  window.electronAPI.logAPI.logDebug('This is a debug message.');
+  window.electronAPI.logAPI.logInfo('This is an info message.');
+  window.electronAPI.logAPI.logWarn('This is a warning message.');
+  window.electronAPI.logAPI.logError('This is an error with stack trace.');
 };
 </script>
 

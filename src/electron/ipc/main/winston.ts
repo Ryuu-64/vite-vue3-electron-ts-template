@@ -1,7 +1,7 @@
 import {ipcMain} from "electron";
 import {logger} from "../../component/Logger";
-import {LogDebug, LogError, LogInfo, LogWarn} from "../../../API/types";
-import {IpcMainInvoke} from "./invoke";
+import {LogDebug, LogError, LogInfo, LogWarn} from "../../../types/api";
+import {IpcMainInvoke} from "../../../types/ipcMainTypes";
 
 export const registerWinston = () => {
     ipcMain.handle(

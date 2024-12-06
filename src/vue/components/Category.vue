@@ -13,8 +13,9 @@ const defaultProps = [
 onMounted(async () => {
   const rootCategories: Category[] = await window.electronAPI.categoryAPI.findCategoryTree();
   data.push(...formatTreeData(rootCategories));
+  console.log(rootCategories);
 
-  function formatTreeData(descendants: Category[]): any[] {
+  function formatTreeData(descendants: Category[]): Category[] {
     return descendants.map(item => ({
       id: item.id,
       label: item.name,
@@ -22,16 +23,24 @@ onMounted(async () => {
     }));
   }
 });
+
+const onNodeClick = (node: any, data: any) => {
+  console.log(node);
+  console.log(data);
+};
 </script>
 
 <template>
   <el-divider>category</el-divider>
   <el-tree
+      style="max-width: 600px"
       :data="data"
       :props="defaultProps"
   >
-    <template #default="{ node }">
-      {{ node.label }}
+    <template #default="{ node, data }">
+      <div @click="onNodeClick(node,data)">
+        {{ data.label }}
+      </div>
     </template>
   </el-tree>
   <el-divider></el-divider>

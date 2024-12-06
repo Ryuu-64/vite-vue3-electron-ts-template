@@ -45,7 +45,7 @@ class CategoryService {
         );
     }
 
-    async create(name: string, parentId?: string): Promise<Category> {
+    create(name: string, parentId?: string): Promise<Category> {
         return prisma.$transaction(
             async (prisma: Prisma.TransactionClient) => {
                 const category: Category = await insertCategoryNode(prisma, name);
@@ -70,13 +70,13 @@ class CategoryService {
         }
     }
 
-    async findOne(id: string): Promise<Category | null> {
+    findOne(id: string): Promise<Category | null> {
         return prisma.category.findUnique({
             where: {id},
         });
     }
 
-    async findAll(): Promise<Category[]> {
+    findAll(): Promise<Category[]> {
         return prisma.category.findMany();
     }
 }

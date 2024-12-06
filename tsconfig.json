@@ -15,11 +15,6 @@
       "dom"
     ],
     "baseUrl": ".",
-    "paths": {
-      "@*": [
-        "src/vue/*"
-      ]
-    },
     "skipLibCheck": true,
     "outDir": "dist/",
     "allowSyntheticDefaultImports": true,

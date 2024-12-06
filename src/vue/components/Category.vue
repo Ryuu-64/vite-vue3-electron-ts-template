@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import {Category} from "../../models/Category";
-import {onMounted, reactive} from 'vue';
+import {onMounted, reactive, ref} from 'vue';
+import {VueDraggable} from 'vue-draggable-plus'
 
-const data = reactive<Category[]>([]);
+const listData = ref<Category[]>([])
+const treeData = reactive<Category[]>([]);
 const defaultProps = [
   {
     label: 'label',
@@ -12,8 +14,7 @@ const defaultProps = [
 
 onMounted(async () => {
   const rootCategories: Category[] = await window.electronAPI.categoryAPI.findCategoryTree();
-  data.push(...formatTreeData(rootCategories));
-  console.log(rootCategories);
+  treeData.push(...formatTreeData(rootCategories));
 
   function formatTreeData(descendants: Category[]): Category[] {
     return descendants.map(item => ({
@@ -22,26 +23,24 @@ onMounted(async () => {
       children: item.children ? formatTreeData(item.children) : [],
     }));
   }
-});
 
-const onNodeClick = (node: any, data: any) => {
-  console.log(node);
-  console.log(data);
-};
+  listData.value = await window.electronAPI.categoryAPI.findAllCategories();
+});
 </script>
 
 <template>
   <el-divider>category</el-divider>
-  <el-tree
-      style="max-width: 600px"
-      :data="data"
-      :props="defaultProps"
-  >
-    <template #default="{ node, data }">
-      <div @click="onNodeClick(node,data)">
-        {{ data.label }}
-      </div>
-    </template>
-  </el-tree>
+  <vue-draggable v-model="listData" target=".el-tree">
+    <el-tree
+        :data="listData"
+        :props="defaultProps"
+    >
+      <template #default="{ node, data }">
+        <div>
+          {{ data }}
+        </div>
+      </template>
+    </el-tree>
+  </vue-draggable>
   <el-divider></el-divider>
 </template>

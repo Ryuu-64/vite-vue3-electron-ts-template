@@ -1,6 +1,6 @@
 import {ipcMain} from "electron";
 import {service} from "../../service/BookmarkService";
-import {CreateBookmark, FindAllBookmark, FindBookmark} from "../../../types/api";
+import {CreateBookmark, FindAllBookmarks, FindBookmark} from "../../../types/api";
 import {IpcMainInvoke} from "../../../types/ipcMainTypes";
 
 export const registerBookmarkService = () => {
@@ -15,6 +15,6 @@ export const registerBookmarkService = () => {
     );
     ipcMain.handle(
         'findAllBookmarks',
-        ((_event, ...args) => service.findAll(...args)) as IpcMainInvoke<FindAllBookmark>
+        ((_event, ...args) => service.findAll(...args)) as IpcMainInvoke<FindAllBookmarks>
     );
 };

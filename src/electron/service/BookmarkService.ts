@@ -1,5 +1,6 @@
-import {Bookmark, Tag} from "@prisma/client";
+import {Tag} from "@prisma/client";
 import {prisma} from "../component/Prisma";
+import {Bookmark} from "../../models/Bookmark";
 
 class BookmarkService {
     async create(

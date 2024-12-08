@@ -1,22 +1,33 @@
-import {createWebHistory, createRouter} from "vue-router";
-import Home from "../components/Home.vue";
-import About from "../components/About.vue";
+import {createWebHistory, createRouter, RouteRecordRaw} from "vue-router";
 
-const routes = [
+/**
+ * TODO add Management Node in RouteNode
+ */
+export const routes: RouteRecordRaw[] = [
     {
         path: "/",
-        name: "",
-        component: Home,
+        name: "Bookmark",
+        component: () => import ( "../pages/Bookmark.vue"),
     },
     {
-        path: "/home",
-        name: "Home",
-        component: Home,
+        path: "/category",
+        name: "Category",
+        component: () => import ( "../pages/Category.vue"),
+    },
+    {
+        path: "/miscellaneous",
+        name: "Miscellaneous",
+        component: () => import ( "../pages/Miscellaneous.vue"),
+    },
+    {
+        path: "/settings",
+        name: "Settings",
+        component: () => import ( "../pages/Settings.vue"),
     },
     {
         path: "/about",
         name: "About",
-        component: About,
+        component: () => import ( "../pages/About.vue"),
     },
 ];
 

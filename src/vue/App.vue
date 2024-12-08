@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Miscellaneous from "./components/Miscellaneous.vue";
+import Home from "./pages/Home.vue";
 </script>
 
 <template>
-  <miscellaneous></miscellaneous>
+  <home/>
 </template>
 
 <style>

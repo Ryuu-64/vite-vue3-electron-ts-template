@@ -1,5 +1,6 @@
 import {Category} from "../models/Category";
-import {Bookmark, Tag} from "@prisma/client";
+import {Bookmark} from "../models/Bookmark";
+import {Tag} from "@prisma/client";
 import {Logger} from "winston";
 
 export type ImportChromeBookmark = () => Promise<boolean>;
@@ -12,7 +13,7 @@ export type CreateBookmark = (
     createdAt: Date, updatedAt: Date, categoryId: string, tags: Tag[]
 ) => Promise<Bookmark>;
 export type FindBookmark = (id: string) => Promise<Bookmark | null>;
-export type FindAllBookmark = () => Promise<Bookmark[]>;
+export type FindAllBookmarks = () => Promise<Bookmark[]>;
 
 export type LogDebug = (message: string) => Promise<Logger>;
 export type LogInfo = (message: string) => Promise<Logger>;

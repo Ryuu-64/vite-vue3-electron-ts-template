@@ -35,6 +35,12 @@ class CategoryClosureService {
     async findAll(): Promise<CategoryClosure[]> {
         return prisma.categoryClosure.findMany();
     }
+
+    async findAllParent(): Promise<CategoryClosure[]> {
+        return prisma.categoryClosure.findMany({
+            where: {depth: 1}
+        });
+    }
 }
 
 export const service = new CategoryClosureService();

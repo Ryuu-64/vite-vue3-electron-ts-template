@@ -14,7 +14,7 @@ const findBookmark = async () => {
 };
 
 const findAllBookmarks = async () => {
-  const bookmarks = await window.electronAPI.bookmarkAPI.findAllBookmark();
+  const bookmarks = await window.electronAPI.bookmarkAPI.findAllBookmarks();
   console.log(bookmarks);
 };
 

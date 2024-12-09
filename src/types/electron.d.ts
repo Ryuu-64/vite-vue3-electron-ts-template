@@ -1,5 +1,5 @@
 import {
-    CreateBookmark, FindAllBookmarks, FindAllCategories,
+    CreateBookmark, FindAllBookmarks, FindAllCategories, FindAllCategoriesWithParent,
     FindBookmark,
     FindCategoryTree,
     ImportChromeBookmark,
@@ -16,6 +16,7 @@ declare global {
             categoryAPI: {
                 findCategoryTree: FindCategoryTree
                 findAllCategories: FindAllCategories
+                findAllCategoriesWithParent: FindAllCategoriesWithParent
             };
             fileAPI: {
                 importChromeBookmark: ImportChromeBookmark

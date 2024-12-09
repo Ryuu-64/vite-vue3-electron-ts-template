@@ -12,12 +12,12 @@ export const routes: RouteRecordRaw[] = [
             {
                 path: "/bookmark",
                 name: "Bookmark",
-                component: () => import ( "../pages/Bookmark.vue"),
+                component: () => import ( "../pages/management/Bookmark.vue"),
             },
             {
                 path: "/category",
                 name: "Category",
-                component: () => import ( "../pages/Category.vue"),
+                component: () => import ( "../pages/management/Category.vue"),
             },
         ]
     },

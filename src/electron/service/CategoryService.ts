@@ -1,9 +1,10 @@
-import {Prisma, CategoryClosure} from "@prisma/client";
+import {Prisma} from "@prisma/client";
 import TransactionClient = Prisma.TransactionClient;
 import {Category} from "../../models/Category";
 import {prisma} from "../component/Prisma";
 import {service as closureService} from "../service/CategoryClosureService";
 import {logger} from "../component/Logger";
+import {CategoryClosure} from "../../models/CategoryClosure";
 
 class CategoryService {
     // 构建树状结构
@@ -78,6 +79,29 @@ class CategoryService {
 
     findAll(): Promise<Category[]> {
         return prisma.category.findMany();
+    }
+
+    async findAllWithParent(): Promise<Category[]> {
+        const categories: Category[] = await prisma.category.findMany();
+        const idCategoryMap = new Map<string, Category>();
+        categories.forEach(category => {
+            if (category.id === undefined) {
+                logger.warn("category id not found");
+                return;
+            }
+
+            idCategoryMap.set(category.id, category);
+        });
+        const closures: CategoryClosure[] = await closureService.findAllParent();
+        closures.forEach(closure => {
+            const category = idCategoryMap.get(closure.descendantId);
+            if (category === undefined) {
+                return;
+            }
+
+            category.parentName = idCategoryMap.get(closure.ancestorId)?.name;
+        });
+        return categories;
     }
 }
 

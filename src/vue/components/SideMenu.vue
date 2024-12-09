@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {routes} from "../router";
+import {routes} from "@/vue/router";
 </script>
 
 <template>
@@ -9,11 +9,39 @@ import {routes} from "../router";
         router
     >
       <template v-for="item in routes">
-        <el-menu-item
-            :index="item.path"
-        >
-          <template #title>{{ item.name }}</template>
-        </el-menu-item>
+        <template v-if="item.children">
+          <el-sub-menu :index="item.path" :key="item.path">
+            <template #title>
+              {{ item.name }}
+            </template>
+            <template v-for="secondLevelItem in item.children">
+              <el-sub-menu
+                  v-if="secondLevelItem.children"
+                  :index="secondLevelItem.path"
+                  :key="secondLevelItem.path"
+              >
+                <template #title>{{ secondLevelItem.name }}</template>
+                <el-menu-item
+                    v-for="(thirdLevelItem, i) in secondLevelItem.children"
+                    :key="i"
+                    :index="thirdLevelItem.path"
+                >
+                  {{ thirdLevelItem.name }}
+                </el-menu-item>
+              </el-sub-menu>
+              <el-menu-item v-else :index="secondLevelItem.path">
+                {{ secondLevelItem.name }}
+              </el-menu-item>
+            </template>
+          </el-sub-menu>
+        </template>
+        <template v-else>
+          <el-menu-item
+              :index="item.path"
+          >
+            <template #title>{{ item.name }}</template>
+          </el-menu-item>
+        </template>
       </template>
     </el-menu>
   </div>

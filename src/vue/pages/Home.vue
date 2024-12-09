@@ -3,7 +3,7 @@ import SideMenu from "../components/SideMenu.vue";
 </script>
 
 <template>
-  <side-menu></side-menu>
+  <side-menu/>
   <div class="content">
     <router-view/>
   </div>

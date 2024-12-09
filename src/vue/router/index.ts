@@ -1,18 +1,25 @@
 import {createWebHistory, createRouter, RouteRecordRaw} from "vue-router";
 
-/**
- * TODO add Management Node in RouteNode
- */
 export const routes: RouteRecordRaw[] = [
     {
         path: "/",
-        name: "Bookmark",
-        component: () => import ( "../pages/Bookmark.vue"),
+        redirect: "/bookmark",
     },
     {
-        path: "/category",
-        name: "Category",
-        component: () => import ( "../pages/Category.vue"),
+        path: "/management",
+        name: "Management",
+        children: [
+            {
+                path: "/bookmark",
+                name: "Bookmark",
+                component: () => import ( "../pages/Bookmark.vue"),
+            },
+            {
+                path: "/category",
+                name: "Category",
+                component: () => import ( "../pages/Category.vue"),
+            },
+        ]
     },
     {
         path: "/miscellaneous",

@@ -14,7 +14,7 @@ import SideMenu from "../components/SideMenu.vue";
   position: absolute;
   left: 200px;
   right: 0;
-  top: 0;
+  top: 24px;
   bottom: 0;
 }
 </style>

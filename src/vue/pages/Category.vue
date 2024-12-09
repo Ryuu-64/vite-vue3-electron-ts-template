@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import {Category} from "@/models/Category";
 import {onMounted, reactive, ref} from 'vue';
-import {VueDraggable} from 'vue-draggable-plus'
+import {VueDraggable} from 'vue-draggable-plus';
 
-const listData = ref<Category[]>([])
+const listData = ref<Category[]>([]);
 const treeData = reactive<Category[]>([]);
 const defaultProps = [
   {
@@ -29,7 +29,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <el-divider>category</el-divider>
   <vue-draggable v-model="listData" target=".el-tree">
     <el-tree
         :data="listData"
@@ -42,5 +41,4 @@ onMounted(async () => {
       </template>
     </el-tree>
   </vue-draggable>
-  <el-divider></el-divider>
 </template>

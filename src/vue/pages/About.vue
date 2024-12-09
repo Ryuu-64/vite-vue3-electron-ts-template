@@ -2,7 +2,6 @@
 </script>
 
 <template>
-  <el-divider>about</el-divider>
   <div>
     <el-text>powered by:</el-text>
     <div class="icon-containers">
@@ -24,7 +23,6 @@
       MIT License
     </el-link>
   </div>
-  <el-divider></el-divider>
 </template>
 
 <style scoped>

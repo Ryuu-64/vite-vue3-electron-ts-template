@@ -3,10 +3,6 @@
 
 <template>
   <el-divider>about</el-divider>
-  <el-text>released under the&nbsp;</el-text>
-  <el-link href="https://opensource.org/license/MIT" target="_blank" rel="noopener noreferrer" type="primary">
-    MIT License
-  </el-link>
   <div>
     <el-text>powered by:</el-text>
     <div class="icon-containers">
@@ -20,6 +16,13 @@
       <img alt="pinia logo" width="32" src="@/assets/images/pinia.svg"/>
       <img alt="element-plus-logo" width="128" src="@/assets/images/element-plus-logo.svg"/>
     </div>
+  </div>
+  <br/>
+  <div>
+    <el-text>released under the&nbsp;</el-text>
+    <el-link href="https://opensource.org/license/MIT" target="_blank" rel="noopener noreferrer" type="primary">
+      MIT License
+    </el-link>
   </div>
   <el-divider></el-divider>
 </template>

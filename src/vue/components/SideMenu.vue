@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {routes} from "@/vue/router";
+import {routes} from "../router";
 </script>
 
 <template>
@@ -35,7 +35,7 @@ import {routes} from "@/vue/router";
             </template>
           </el-sub-menu>
         </template>
-        <template v-else>
+        <template v-else-if="!item.redirect">
           <el-menu-item
               :index="item.path"
           >

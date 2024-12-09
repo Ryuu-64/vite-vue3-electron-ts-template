@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Bookmark} from "../../models/Bookmark";
+import {Bookmark} from "@/models/Bookmark";
 import {onMounted, ref} from "vue";
 
 const bookmarks = ref<Bookmark[]>([]);

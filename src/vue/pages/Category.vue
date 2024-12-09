@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {Category} from "../../models/Category";
+import {Category} from "@/models/Category";
 import {onMounted, reactive, ref} from 'vue';
 import {VueDraggable} from 'vue-draggable-plus'
 

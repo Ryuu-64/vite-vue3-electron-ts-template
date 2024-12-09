@@ -8,5 +8,4 @@ import DarkMode from "../components/DarkMode.vue";
 </template>
 
 <style scoped>
-
 </style>

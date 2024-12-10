@@ -1,5 +1,4 @@
 import {contextBridge} from 'electron';
-import * as logAPI from '../ipc/renderer/logAPI';
 import * as bookmarkAPI from '../ipc/renderer/bookmarkAPI';
 import * as fileAPI from '../ipc/renderer/fileAPI';
 import * as categoryAPI from '../ipc/renderer/categoryAPI';
@@ -20,7 +19,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    logAPI: logAPI,
     bookmarkAPI: bookmarkAPI,
     categoryAPI: categoryAPI,
     fileAPI: fileAPI

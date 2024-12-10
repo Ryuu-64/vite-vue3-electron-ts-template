@@ -1,17 +1,27 @@
 import {useDark, useToggle} from "@vueuse/core";
-import {useRefWrapper} from "../utils/RefUtils";
+import {useRefSync} from "../utils/RefUtils";
+import {Ref, ref} from "vue";
+import {ColorThemeMode} from "../enums/ColorThemeMode";
 
 const isDarkMode = useDark();
 
 export const initializeColorThemeMode = () => {
 };
 export const toggleColorThemeMode = useToggle(isDarkMode);
-export const colorThemeMode = useRefWrapper(
+export const colorThemeMode: Ref<ColorThemeMode> = ref(ColorThemeMode.Dark);
+useRefSync(
     isDarkMode,
-    (wrappedRef, _externalRef, newValue) => {
-        wrappedRef.value = newValue;
+    colorThemeMode,
+    (colorThemeMode, newIsDarkMode) => {
+        colorThemeMode.value = newIsDarkMode ? ColorThemeMode.Dark : ColorThemeMode.Light;
     },
-    (_wrappedRef, externalRef, newValue) => {
-        externalRef.value = newValue;
+    (isDarkMode, newColorThemeMode) => {
+        if (newColorThemeMode === ColorThemeMode.Dark) {
+            isDarkMode.value = true;
+        } else if (newColorThemeMode === ColorThemeMode.Light) {
+            isDarkMode.value = false;
+        } else {
+            console.warn(`ColorThemeMode: Invalid color theme mode, ${newColorThemeMode}`);
+        }
     }
 );

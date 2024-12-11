@@ -1,6 +1,10 @@
 import winston from "winston";
 
 export class LoggerFactory {
+    // noinspection JSUnusedLocalSymbols
+    private constructor() {
+    }
+
     static getLogger(key: string): winston.Logger {
         const printfFormat = winston.format.printf(
             ({timestamp, level, message, stack}) => {

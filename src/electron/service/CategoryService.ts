@@ -3,10 +3,13 @@ import TransactionClient = Prisma.TransactionClient;
 import {Category} from "../../models/Category";
 import {prisma} from "../component/Prisma";
 import {service as closureService} from "../service/CategoryClosureService";
-import {logger} from "../component/Logger";
 import {CategoryClosure} from "../../models/CategoryClosure";
+import {LoggerFactory} from "../factory/LoggerFactory";
+import winston from "winston";
 
 class CategoryService {
+    private logger: winston.Logger = LoggerFactory.getLogger("CategoryService");
+
     // 构建树状结构
     async findCategoryTree(): Promise<Category[]> {
         const categories: Category[] | null = await this.findAll();
@@ -19,7 +22,7 @@ class CategoryService {
             if (category.id != null) {
                 categoryMap.set(category.id, category);
             } else {
-                logger.warn("category id not found");
+                this.logger.warn("category id not found");
             }
         });
 
@@ -86,7 +89,7 @@ class CategoryService {
         const idCategoryMap = new Map<string, Category>();
         categories.forEach(category => {
             if (category.id === undefined) {
-                logger.warn("category id not found");
+                this.logger.warn("category id not found");
                 return;
             }
 

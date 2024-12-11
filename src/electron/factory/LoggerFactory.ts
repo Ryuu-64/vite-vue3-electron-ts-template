@@ -1,4 +1,5 @@
 import winston from "winston";
+import config from "../../assets/configs/winston.json";
 
 export class LoggerFactory {
     // noinspection JSUnusedLocalSymbols
@@ -15,7 +16,7 @@ export class LoggerFactory {
         )
 
         return winston.createLogger({
-            level: 'debug',
+            level: config.level,
             format: winston.format.combine(
                 winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
                 winston.format.errors({stack: true}),

@@ -102,7 +102,7 @@ class CategoryService {
                 return;
             }
 
-            category.parentName = idCategoryMap.get(closure.ancestorId)?.name;
+            category.parent = idCategoryMap.get(closure.ancestorId);
         });
         return categories;
     }

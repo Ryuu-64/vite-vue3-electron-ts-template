@@ -6,11 +6,24 @@ import 'element-plus/theme-chalk/dark/css-vars.css';
 import App from './App.vue';
 import router from './router/index';
 import {afterAppInitialize} from "./events/events";
+import {createI18n} from "vue-i18n";
+import en from './locales/en';
+import zh from './locales/zh';
 
-const app = createApp(App);
-app.use(createPinia());
-app.use(router);
-app.use(ElementPlus);
-app.mount('#app');
+const i18n = createI18n({
+    legacy: false,
+    locale: 'en',
+    messages: {
+        'en': en,
+        'zh': zh
+    }
+});
+
+createApp(App)
+    .use(createPinia())
+    .use(router)
+    .use(i18n)
+    .use(ElementPlus)
+    .mount('#app');
 
 afterAppInitialize.invoke();

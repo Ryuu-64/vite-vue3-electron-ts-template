@@ -12,7 +12,7 @@ import {routes} from "../router";
         <template v-if="item.children">
           <el-sub-menu :index="item.path" :key="item.path">
             <template #title>
-              {{ item.name }}
+              {{ $t('component.side-menu.' + item.name) }}
             </template>
             <template v-for="secondLevelItem in item.children">
               <el-sub-menu
@@ -21,13 +21,6 @@ import {routes} from "../router";
                   :key="secondLevelItem.path"
               >
                 <template #title>{{ secondLevelItem.name }}</template>
-                <el-menu-item
-                    v-for="(thirdLevelItem, i) in secondLevelItem.children"
-                    :key="i"
-                    :index="thirdLevelItem.path"
-                >
-                  {{ thirdLevelItem.name }}
-                </el-menu-item>
               </el-sub-menu>
               <el-menu-item v-else :index="secondLevelItem.path">
                 {{ secondLevelItem.name }}
@@ -39,7 +32,10 @@ import {routes} from "../router";
           <el-menu-item
               :index="item.path"
           >
-            <template #title>{{ item.name }}</template>
+            <!-- TODO REMOVE -->
+            <template #title>
+              {{ item.name }}
+            </template>
           </el-menu-item>
         </template>
       </template>

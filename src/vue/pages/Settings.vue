@@ -1,11 +1,9 @@
 <script setup lang="ts">
-
-import DarkMode from "../components/ColorThemeMode.vue";
+import ColorThemeMode from "../components/ColorThemeMode.vue";
+import I18n from "@/vue/components/i18n.vue";
 </script>
 
 <template>
-  <dark-mode/>
+  <color-theme-mode/>
+  <i18n/>
 </template>
-
-<style scoped>
-</style>

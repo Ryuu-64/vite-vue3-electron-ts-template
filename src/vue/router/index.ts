@@ -3,37 +3,38 @@ import {createWebHistory, createRouter, RouteRecordRaw} from "vue-router";
 export const routes: RouteRecordRaw[] = [
     {
         path: "/",
+        name: "bookmark",
         redirect: "/bookmark",
     },
     {
         path: "/management",
-        name: "Management",
+        name: "management",
         children: [
             {
                 path: "/bookmark",
-                name: "Bookmark",
+                name: "bookmark",
                 component: () => import ( "../pages/management/Bookmark.vue"),
             },
             {
                 path: "/category",
-                name: "Category",
+                name: "category",
                 component: () => import ( "../pages/management/Category.vue"),
             },
         ]
     },
     {
         path: "/miscellaneous",
-        name: "Miscellaneous",
+        name: "miscellaneous",
         component: () => import ( "../pages/Miscellaneous.vue"),
     },
     {
         path: "/settings",
-        name: "Settings",
+        name: "settings",
         component: () => import ( "../pages/Settings.vue"),
     },
     {
         path: "/about",
-        name: "About",
+        name: "about",
         component: () => import ( "../pages/About.vue"),
     },
 ];

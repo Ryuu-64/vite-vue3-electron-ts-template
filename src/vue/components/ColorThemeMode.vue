@@ -4,8 +4,8 @@ import {colorThemeMode, toggleColorThemeMode} from "../composables";
 </script>
 
 <template>
-  <el-text>is dark mode:&nbsp;</el-text>
-  <el-button @click="toggleColorThemeMode()">{{ colorThemeMode }}</el-button>
+  <el-text>{{ $t('color-theme-mode') }}:&nbsp;</el-text>
+  <el-button size="small" @click="toggleColorThemeMode()">{{ colorThemeMode }}</el-button>
 </template>
 
 <style scoped>

@@ -1,3 +1,22 @@
 {
-  "level": "debug"
+  "level": "debug",
+  "format": {
+    "timestamp": {
+      "options": {
+        "format": "YYYY-MM-DD HH:mm:ss.SSS"
+      }
+    },
+    "errors": {
+      "options": {
+        "stack": true
+      }
+    }
+  },
+  "transports": {
+    "file": {
+      "options": {
+        "filename": "logs/app.log"
+      }
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import winston from "winston";
+import {TransformableInfo} from "logform";
 import config from "../../assets/configs/winston.json";
 
 export class LoggerFactory {
@@ -6,25 +7,28 @@ export class LoggerFactory {
     private constructor() {
     }
 
-    static getLogger(key: string): winston.Logger {
-        const printfFormat = winston.format.printf(
+    static getLoggerByClass<T extends { new(...args: any[]): {} }>(cls: T): winston.Logger {
+        return this.getLoggerByKey(cls.name);
+    }
+
+    private static getLoggerByKey(key: string): winston.Logger {
+        const templateFunction: (info: TransformableInfo) => string =
             ({timestamp, level, message, stack}) => {
                 return stack
                     ? `${timestamp} [${level.toUpperCase()}] <${key}>: ${message}\n${stack}`
                     : `${timestamp} [${level.toUpperCase()}] <${key}>: ${message}`;
-            }
-        )
+            };
 
         return winston.createLogger({
             level: config.level,
             format: winston.format.combine(
-                winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss.SSS'}),
-                winston.format.errors({stack: true}),
-                printfFormat
+                winston.format.timestamp(config.format.timestamp.options),
+                winston.format.errors(config.format.errors.options),
+                winston.format.printf(templateFunction)
             ),
             transports: [
                 new winston.transports.Console(),
-                new winston.transports.File({filename: 'logs/app.log'})
+                new winston.transports.File(config.transports.file.options),
             ],
         });
     }

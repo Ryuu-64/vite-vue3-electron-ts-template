@@ -57,6 +57,7 @@
     "@vueuse/shared": "^11.1.0",
     "cheerio": "^0.22.0",
     "element-plus": "^2.8.6",
+    "logform": "^2.7.0",
     "multicast-function": "^1.1.0",
     "sqlite3": "^5.1.7",
     "vue": "^3.5.12",

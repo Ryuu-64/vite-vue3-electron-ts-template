@@ -8,7 +8,7 @@ import {LoggerFactory} from "../factory/LoggerFactory";
 import winston from "winston";
 
 class CategoryService {
-    private logger: winston.Logger = LoggerFactory.getLoggerByClass(CategoryService);
+    private logger: winston.Logger = LoggerFactory.getLoggerByConstructor(CategoryService);
 
     // 构建树状结构
     async findCategoryTree(): Promise<Category[]> {

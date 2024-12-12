@@ -7,8 +7,8 @@ export class LoggerFactory {
     private constructor() {
     }
 
-    static getLoggerByClass<T extends { new(...args: any[]): {} }>(cls: T): winston.Logger {
-        return this.getLoggerByKey(cls.name);
+    static getLoggerByConstructor<T extends { new(...args: any[]): {} }>(constructor: T): winston.Logger {
+        return this.getLoggerByKey(constructor.name);
     }
 
     private static getLoggerByKey(key: string): winston.Logger {

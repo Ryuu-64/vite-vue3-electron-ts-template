@@ -7,8 +7,8 @@ import App from './App.vue';
 import router from './router/index';
 import {afterAppInitialize} from "./events/events";
 import {createI18n} from "vue-i18n";
-import en from './locales/en';
-import zh from './locales/zh';
+import en from './languages/en';
+import zh from './languages/zh';
 
 const i18n = createI18n({
     legacy: false,

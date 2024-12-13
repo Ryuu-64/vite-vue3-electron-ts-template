@@ -12,7 +12,7 @@ import {routes} from "../router";
         <template v-if="item.children">
           <el-sub-menu :index="item.path" :key="item.path">
             <template #title>
-              {{ $t('component.side-menu.' + item.name) }}
+              {{ $t('component.side-menu.' + String(item.name)) }}
             </template>
             <template v-for="secondLevelItem in item.children">
               <el-sub-menu
@@ -20,10 +20,12 @@ import {routes} from "../router";
                   :index="secondLevelItem.path"
                   :key="secondLevelItem.path"
               >
-                <template #title>{{ secondLevelItem.name }}</template>
+                <template #title>
+                  {{ secondLevelItem.name }}
+                </template>
               </el-sub-menu>
               <el-menu-item v-else :index="secondLevelItem.path">
-                {{ secondLevelItem.name }}
+                {{ $t('component.side-menu.' + String(secondLevelItem.name)) }}
               </el-menu-item>
             </template>
           </el-sub-menu>
@@ -32,9 +34,8 @@ import {routes} from "../router";
           <el-menu-item
               :index="item.path"
           >
-            <!-- TODO REMOVE -->
             <template #title>
-              {{ item.name }}
+              {{ $t('component.side-menu.' + String(item.name)) }}
             </template>
           </el-menu-item>
         </template>
@@ -45,23 +46,12 @@ import {routes} from "../router";
 
 <style scoped>
 .side-menu {
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  overflow-y: scroll;
-}
-
-.side-menu::-webkit-scrollbar {
-  width: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .side-menu-el-menu {
-  width: 200px;
-}
-
-.side-menu-el-menu {
+  width: 100%;
   min-height: 100%;
 }
 </style>

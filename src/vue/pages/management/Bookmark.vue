@@ -19,6 +19,3 @@ onMounted(async () => {
     <el-table-column prop="categoryId" label="categoryId"/>
   </el-table>
 </template>
-
-<style scoped>
-</style>

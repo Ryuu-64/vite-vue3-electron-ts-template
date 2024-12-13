@@ -2,7 +2,8 @@ export default {
     'switch-language': "切换语言",
     'color-theme-mode': "颜色主题模式",
     'component': {
-        'action-column': {
+        'el-table-action-column': {
+            'label': "操作",
             'view': "查看",
             'edit': "编辑",
             'delete': "删除"

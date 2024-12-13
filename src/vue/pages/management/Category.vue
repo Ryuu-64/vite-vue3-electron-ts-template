@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
 import {Category} from "@/models/Category";
-import ActionColumn from "@/vue/components/table/column/ActionColumn.vue";
+import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColumn.vue";
 
 const category = ref<Category[]>([]);
 
@@ -31,15 +31,10 @@ const deleteRow = (row: any) => {
         </span>
       </template>
     </el-table-column>
-    <el-table-column label="action">
-      <template #default="{ row }">
-        <action-column
-            :row="row"
-            :on-view="viewRow"
-            :on-edit="editRow"
-            :on-delete="deleteRow"
-        />
-      </template>
-    </el-table-column>
+    <el-table-action-column
+        :on-view="viewRow"
+        :on-edit="editRow"
+        :on-delete="deleteRow"
+    />
   </el-table>
 </template>

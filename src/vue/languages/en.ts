@@ -2,7 +2,8 @@ export default {
     'switch-language': "switch language",
     'color-theme-mode': "color theme mode",
     'component': {
-        'action-column': {
+        'el-table-action-column': {
+            'label': "action",
             'view': "view",
             'edit': "edit",
             'delete': "delete"

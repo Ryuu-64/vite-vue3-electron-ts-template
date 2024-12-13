@@ -3,24 +3,34 @@ import {createWebHistory, createRouter, RouteRecordRaw} from "vue-router";
 export const routes: RouteRecordRaw[] = [
     {
         path: "/",
-        name: "bookmark",
-        redirect: "/bookmark",
+        name: "redirect-bookmark",
+        redirect: "/management-bookmark",
     },
     {
         path: "/management",
         name: "management",
         children: [
             {
-                path: "/bookmark",
-                name: "bookmark",
+                path: "/management-bookmark",
+                name: "management-bookmark",
                 component: () => import ( "../pages/management/Bookmark.vue"),
             },
             {
-                path: "/category",
-                name: "category",
+                path: "/management-category",
+                name: "management-category",
                 component: () => import ( "../pages/management/Category.vue"),
             },
         ]
+    },
+    {
+        path: "/tree-view",
+        name: "tree-view",
+        component: () => import ( "../pages/TreeView.vue"),
+    },
+    {
+        path: "/import",
+        name: "import",
+        component: () => import ( "../pages/Import.vue"),
     },
     {
         path: "/miscellaneous",

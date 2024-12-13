@@ -31,7 +31,7 @@ const deleteRow = (row: any) => {
         </span>
       </template>
     </el-table-column>
-    <el-table-column>
+    <el-table-column label="action">
       <template #default="{ row }">
         <action-column
             :row="row"
@@ -43,6 +43,3 @@ const deleteRow = (row: any) => {
     </el-table-column>
   </el-table>
 </template>
-
-<style scoped>
-</style>

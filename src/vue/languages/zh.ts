@@ -9,11 +9,18 @@ export default {
         },
         'side-menu': {
             'management': "管理",
-            'bookmark': "书签",
-            'category': "类别",
+            'management-bookmark': "书签",
+            'management-category': "分类",
+            'tree-view': "树状图",
             'miscellaneous': "杂项",
             'settings': "设置",
-            'about': "关于"
+            'about': "关于",
+            'import': "导入"
+        }
+    },
+    'page': {
+        'import': {
+            'chrome-bookmark': "从 chrome 书签导入"
         }
     }
 }

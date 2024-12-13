@@ -8,12 +8,19 @@ export default {
             'delete': "delete"
         },
         'side-menu': {
-            'management': "management",
-            'bookmark': "bookmark",
-            'category': "category",
-            'miscellaneous': "miscellaneous",
-            'settings': "settings",
-            'about': "about"
+            'management': "Management",
+            'management-bookmark': "Bookmark",
+            'management-category': "Category",
+            'tree-view': "Tree View",
+            'miscellaneous': "Miscellaneous",
+            'settings': "Settings",
+            'about': "About",
+            'import': "Import"
+        }
+    },
+    'page': {
+        'import': {
+            'chrome-bookmark': "import from chrome bookmark"
         }
     }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {routes} from "../router";
+import {routes} from "../../router";
 </script>
 
 <template>
@@ -10,7 +10,10 @@ import {routes} from "../router";
     >
       <template v-for="item in routes">
         <template v-if="item.children">
-          <el-sub-menu :index="item.path" :key="item.path">
+          <el-sub-menu
+              :index="item.path"
+              :key="item.path"
+          >
             <template #title>
               {{ $t('component.side-menu.' + String(item.name)) }}
             </template>

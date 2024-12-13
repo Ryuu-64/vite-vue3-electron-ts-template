@@ -16,10 +16,7 @@ const importChromeBookmark = async () => {
 </script>
 
 <template>
-  <el-divider>file</el-divider>
-  <button @click="importChromeBookmark()">import chrome bookmark</button>
-  <el-divider></el-divider>
+  <div>
+    <button @click="importChromeBookmark()">{{ $t('page.import.chrome-bookmark') }}</button>
+  </div>
 </template>
-
-<style scoped>
-</style>

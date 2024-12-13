@@ -1,9 +1,8 @@
 <script lang="ts" setup>
 import {Category} from "@/models/Category";
-import {onMounted, reactive, ref} from 'vue';
+import {onMounted, reactive} from 'vue';
 import {VueDraggable} from 'vue-draggable-plus';
 
-const listData = ref<Category[]>([]);
 const treeData = reactive<Category[]>([]);
 const defaultProps = [
   {
@@ -24,19 +23,19 @@ onMounted(async () => {
     }));
   }
 
-  listData.value = await window.electronAPI.categoryAPI.findAllCategories();
+  treeData.value = await window.electronAPI.categoryAPI.findAllCategories();
 });
 </script>
 
 <template>
-  <vue-draggable v-model="listData" target=".el-tree">
+  <vue-draggable v-model="treeData" target=".el-tree">
     <el-tree
-        :data="listData"
+        :data="treeData"
         :props="defaultProps"
     >
-      <template #default="{ node, data }">
+      <template #default="{ data }">
         <div>
-          {{ data }}
+          {{ data.label }}
         </div>
       </template>
     </el-tree>

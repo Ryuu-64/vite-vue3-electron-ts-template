@@ -1,10 +1,10 @@
-import {CategoryClosure} from "@prisma/client";
-import {prisma} from "../component/Prisma";
-import {Prisma} from "@prisma/client/extension";
+import {Prisma, CategoryClosure} from "@prisma/client";
 import TransactionClient = Prisma.TransactionClient;
+import {prisma} from "../component/Prisma";
+import {BatchPayload} from "../utils/prisma/BatchPayload";
 
 class CategoryClosureService {
-    async insertSelfClosureRelation(prisma: TransactionClient, categoryId: string) {
+    insertSelfClosureRelation(prisma: TransactionClient, categoryId: string) {
         return prisma.categoryClosure.create({
             data: {
                 ancestorId: categoryId,
@@ -32,13 +32,24 @@ class CategoryClosureService {
         return prisma.categoryClosure.createMany({data: closureData});
     }
 
-    async findAll(): Promise<CategoryClosure[]> {
+    findAll(): Promise<CategoryClosure[]> {
         return prisma.categoryClosure.findMany();
     }
 
-    async findAllParent(): Promise<CategoryClosure[]> {
+    findAllParent(): Promise<CategoryClosure[]> {
         return prisma.categoryClosure.findMany({
             where: {depth: 1}
+        });
+    }
+
+    deleteManyByCategoryId(categoryId: string): Promise<BatchPayload> {
+        return prisma.categoryClosure.deleteMany({
+            where: {
+                OR: [
+                    {ancestorId: categoryId},
+                    {descendantId: categoryId},
+                ]
+            }
         });
     }
 }

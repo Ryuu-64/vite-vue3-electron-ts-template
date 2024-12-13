@@ -84,7 +84,9 @@ class CategoryService {
         return prisma.category.findMany();
     }
 
-    delete(id: string): Promise<Category> {
+    async delete(id: string): Promise<Category> {
+        await closureService.deleteManyByCategoryId(id);
+
         return prisma.category.delete({
             where: {id: id},
         });

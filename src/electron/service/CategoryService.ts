@@ -74,7 +74,7 @@ class CategoryService {
         }
     }
 
-    findOne(id: string): Promise<Category | null> {
+    findUnique(id: string): Promise<Category | null> {
         return prisma.category.findUnique({
             where: {id},
         });
@@ -82,6 +82,12 @@ class CategoryService {
 
     findAll(): Promise<Category[]> {
         return prisma.category.findMany();
+    }
+
+    delete(id: string): Promise<Category> {
+        return prisma.category.delete({
+            where: {id: id},
+        });
     }
 
     async findAllWithParent(): Promise<Category[]> {

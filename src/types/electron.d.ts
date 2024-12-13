@@ -1,8 +1,12 @@
 import {
-    CreateBookmark, FindAllBookmarks, FindAllCategories, FindAllCategoriesWithParent,
+    CreateBookmark,
+    FindAllBookmarks,
+    FindAllCategories,
+    FindAllCategoriesWithParent,
     FindBookmark,
     FindCategoryTree,
     ImportChromeBookmark,
+    DeleteCategoryById,
 } from "./api";
 
 declare global {
@@ -10,9 +14,10 @@ declare global {
     interface Window {
         electronAPI: {
             categoryAPI: {
-                findCategoryTree: FindCategoryTree
                 findAllCategories: FindAllCategories
                 findAllCategoriesWithParent: FindAllCategoriesWithParent
+                findCategoryTree: FindCategoryTree
+                deleteCategoryById: DeleteCategoryById
             };
             fileAPI: {
                 importChromeBookmark: ImportChromeBookmark

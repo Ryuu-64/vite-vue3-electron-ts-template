@@ -1,4 +1,9 @@
 export default {
+    'common': {
+        'warning': "warning",
+        'confirm': "confirm",
+        'cancel': "cancel",
+    },
     'switch-language': "switch language",
     'color-theme-mode': "color theme mode",
     'component': {

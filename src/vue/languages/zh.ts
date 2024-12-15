@@ -1,4 +1,9 @@
 export default {
+    'common': {
+        'warning': "警告",
+        'confirm': "确认",
+        'cancel': "取消",
+    },
     'switch-language': "切换语言",
     'color-theme-mode': "颜色主题模式",
     'component': {
@@ -20,8 +25,11 @@ export default {
         }
     },
     'page': {
+        'management': {
+            'category': {}
+        },
         'import': {
             'chrome-bookmark': "从 chrome 书签导入"
         }
     }
-}
+};

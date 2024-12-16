@@ -85,11 +85,22 @@ class CategoryService {
     }
 
     async delete(id: string): Promise<Category> {
-        await closureService.deleteManyByCategoryId(id);
+        return prisma.$transaction(
+            async (prisma: Prisma.TransactionClient) => {
+                const closurePromise = closureService.deleteManyByCategoryId(prisma, id);
 
-        return prisma.category.delete({
-            where: {id: id},
-        });
+                const deleteCategoryPromise = prisma.category.delete({
+                    where: {id: id},
+                });
+
+                const [closureResult, categoryResult] = await Promise.all([closurePromise, deleteCategoryPromise]);
+                if (closureResult.count === 0) {
+                    this.logger.warn(`Delete failed. category id=${id}.`);
+                }
+
+                return categoryResult;
+            }
+        );
     }
 
     async findAllWithParent(): Promise<Category[]> {

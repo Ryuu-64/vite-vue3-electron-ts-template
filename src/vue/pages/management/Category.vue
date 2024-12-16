@@ -2,12 +2,15 @@
 import {onMounted, ref} from "vue";
 import {Category} from "@/models/Category";
 import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColumn.vue";
-import {ElMessageBox} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
+import {useI18n} from "vue-i18n";
 
-const category = ref<Category[]>([]);
-
+const categoriesRef = ref<Category[]>([]);
+const $t = ref();
 onMounted(async () => {
-  category.value = await window.electronAPI.categoryAPI.findAllCategoriesWithParent();
+  let {t} = useI18n();
+  $t.value = t;
+  categoriesRef.value = await window.electronAPI.categoryAPI.findAllCategoriesWithParent();
 });
 
 const viewRow = (row: any) => {
@@ -20,32 +23,39 @@ const editRow = (row: any) => {
 
 const deleteRow = (row: any) => {
   ElMessageBox.confirm(
-      '此操作将永久删除该文件, 是否继续?',
-      '警告',
+      $t.value('component.el-message-box.delete.message'),
+      $t.value('common.warning'),
       {
-        confirmButtonText: this.$t('common.confirm'),
-        cancelButtonText: this.$t('common.cancel'),
+        confirmButtonText: $t.value('common.confirm'),
+        cancelButtonText: $t.value('common.cancel'),
         type: 'warning'
       }
-  ).then(() => {
-    window.electronAPI.categoryAPI
-        .deleteCategoryById(row.id)
-        .then((category) => {
-          if (category.id === row.id) {
-            console.log('文件已删除');
-          } else {
-            console.log('文件删除失败');
-          }
-        });
-  }).catch(() => {
-    console.log('取消删除');
-  });
+  ).then(
+      () => {
+        window.electronAPI.categoryAPI
+            .deleteCategoryById(row.id)
+            .then(
+                category => {
+                  if (category.id === row.id) {
+                    ElMessage.success($t.value('component.el-message-box.delete.success'));
+                    const index = categoriesRef.value.indexOf(row);
+                    categoriesRef.value.splice(index, 1);
+                  } else {
+                    ElMessage.error($t.value('component.el-message-box.delete.fail'));
+                  }
+                }
+            );
+      }
+  ).catch(
+      () => {
+        ElMessage.info($t.value('component.el-message-box.delete.cancel'));
+      }
+  );
 };
-
 </script>
 
 <template>
-  <el-table :data="category" stripe>
+  <el-table :data="categoriesRef" stripe>
     <el-table-column prop="name" label="name"/>
     <el-table-column label="parent name">
       <template v-slot="scope">

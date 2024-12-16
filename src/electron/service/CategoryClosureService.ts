@@ -42,7 +42,7 @@ class CategoryClosureService {
         });
     }
 
-    deleteManyByCategoryId(categoryId: string): Promise<BatchPayload> {
+    deleteManyByCategoryId(prisma: TransactionClient, categoryId: string): Promise<BatchPayload> {
         return prisma.categoryClosure.deleteMany({
             where: {
                 OR: [

@@ -5,8 +5,11 @@ import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColu
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useI18n} from "vue-i18n";
 
+const dialogVisible = ref(false)
+const form = ref<Category>({})
 const categoriesRef = ref<Category[]>([]);
 const $t = ref();
+
 onMounted(async () => {
   let {t} = useI18n();
   $t.value = t;
@@ -18,7 +21,8 @@ const viewRow = (row: any) => {
 };
 
 const editRow = (row: any) => {
-  console.log(row);
+  form.value = row;
+  dialogVisible.value = true;
 };
 
 const deleteRow = (row: any) => {
@@ -70,4 +74,26 @@ const deleteRow = (row: any) => {
         :on-delete="deleteRow"
     />
   </el-table>
+
+  <el-dialog
+      v-model="dialogVisible"
+      title="Tips"
+  >
+    <el-form :model="form">
+      <el-form-item label="id">
+        <el-input v-model="form.id"/>
+      </el-form-item>
+      <el-form-item label="name">
+        <el-input v-model="form.name"/>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogVisible = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>

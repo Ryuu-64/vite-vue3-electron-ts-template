@@ -6,7 +6,7 @@ import {
     FindBookmark,
     FindCategoryTree,
     ImportChromeBookmark,
-    DeleteCategoryById,
+    DeleteCategoryById, UpdateCategory,
 } from "./api";
 
 declare global {
@@ -17,6 +17,7 @@ declare global {
                 findAllCategories: FindAllCategories
                 findAllCategoriesWithParent: FindAllCategoriesWithParent
                 findCategoryTree: FindCategoryTree
+                updateCategory: UpdateCategory
                 deleteCategoryById: DeleteCategoryById
             };
             fileAPI: {

@@ -1,7 +1,13 @@
 import {ipcMain} from "electron";
 import {service} from "../../service/CategoryService";
 import {IpcMainInvoke} from "../../../types/ipcMainTypes";
-import {FindAllCategories, FindAllCategoriesWithParent, DeleteCategoryById, FindCategoryTree} from "../../../types/api";
+import {
+    FindAllCategories,
+    FindAllCategoriesWithParent,
+    DeleteCategoryById,
+    FindCategoryTree,
+    UpdateCategory
+} from "../../../types/api";
 
 export const registerCategoryService = () => {
     ipcMain.handle(
@@ -17,6 +23,11 @@ export const registerCategoryService = () => {
     ipcMain.handle(
         'findCategoryTree',
         ((_event, ...args) => service.findCategoryTree(...args)) as IpcMainInvoke<FindCategoryTree>
+    );
+
+    ipcMain.handle(
+        'updateCategory',
+        ((_event, ...args) => service.update(...args)) as IpcMainInvoke<UpdateCategory>
     );
 
     ipcMain.handle(

@@ -80,6 +80,17 @@ class CategoryService {
         return prisma.category.findMany();
     }
 
+    update(category: Category): Promise<Category> {
+        return prisma.category.update({
+            where: {
+                id: category.id,
+            },
+            data: {
+                name: category.name,
+            },
+        });
+    }
+
     delete(id: string): Promise<Category> {
         return prisma.$transaction(
             async (prisma: Prisma.TransactionClient) => {

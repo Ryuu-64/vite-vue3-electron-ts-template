@@ -1,8 +1,8 @@
 export default {
     'common': {
-        'warning': 'warning',
-        'confirm': 'confirm',
-        'cancel': 'cancel',
+        'warning': 'Warning',
+        'confirm': 'Confirm',
+        'cancel': 'Cancel',
     },
     'switch-language': 'switch language',
     'color-theme-mode': 'color theme mode',
@@ -33,6 +33,12 @@ export default {
         }
     },
     'page': {
+        'management': {
+            'category': {
+                'edit': 'Edit Category',
+                'edit-failed': 'Category cannot be modified, data remains unchanged.',
+            }
+        },
         'import': {
             'chrome-bookmark': 'import from chrome bookmark'
         }

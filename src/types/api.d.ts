@@ -7,6 +7,7 @@ export type ImportChromeBookmark = () => Promise<boolean>;
 export type FindAllCategories = () => Promise<Category[]>;
 export type FindAllCategoriesWithParent = () => Promise<Category[]>;
 export type DeleteCategoryById = (id: string) => Promise<Category>;
+export type UpdateCategory = (category: Category) => Promise<Category>;
 export type FindCategoryTree = () => Promise<Category[]>;
 
 export type CreateBookmark = (

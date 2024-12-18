@@ -33,6 +33,11 @@ export default {
         }
     },
     'page': {
+        'management': {
+            'category': {
+                'edit': '修改分类'
+            }
+        },
         'import': {
             'chrome-bookmark': '从 chrome 书签导入'
         }

@@ -1,37 +1,51 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import {Category} from "@/models/Category";
-import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColumn.vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useI18n} from "vue-i18n";
+import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColumn.vue";
+import {Category} from "@/models/Category";
+import {deepClone} from "@/utils/deep-clone-utils";
 
-const dialogVisible = ref(false)
-const form = ref<Category>({})
+const isDialogVisible = ref(false);
+const currentData = ref<Category>({});
+const formData = ref<Category>({});
 const categoriesRef = ref<Category[]>([]);
-const $t = ref();
+const $tRef = ref();
 
 onMounted(async () => {
   let {t} = useI18n();
-  $t.value = t;
+  $tRef.value = t;
   categoriesRef.value = await window.electronAPI.categoryAPI.findAllCategoriesWithParent();
 });
+
+const editConfirm = async () => {
+  isDialogVisible.value = false
+  if (formData.value.name === currentData.value.name) {
+    ElMessage.warning($tRef.value('page.management.category.edit-failed'));
+    return;
+  }
+
+  await window.electronAPI.categoryAPI.updateCategory(deepClone(formData.value));
+  ElMessage.success($tRef.value('component.el-message-box.edit.success'));
+};
 
 const viewRow = (row: any) => {
   console.log(row);
 };
 
-const editRow = (row: any) => {
-  form.value = row;
-  dialogVisible.value = true;
+const editRow = (row: Category) => {
+  formData.value = deepClone(row);
+  currentData.value = deepClone(row);
+  isDialogVisible.value = true;
 };
 
 const deleteRow = (row: any) => {
   ElMessageBox.confirm(
-      $t.value('component.el-message-box.delete.message'),
-      $t.value('common.warning'),
+      $tRef.value('component.el-message-box.delete.message'),
+      $tRef.value('common.warning'),
       {
-        confirmButtonText: $t.value('common.confirm'),
-        cancelButtonText: $t.value('common.cancel'),
+        confirmButtonText: $tRef.value('common.confirm'),
+        cancelButtonText: $tRef.value('common.cancel'),
         type: 'warning'
       }
   ).then(
@@ -41,18 +55,18 @@ const deleteRow = (row: any) => {
             .then(
                 category => {
                   if (category.id === row.id) {
-                    ElMessage.success($t.value('component.el-message-box.delete.success'));
+                    ElMessage.success($tRef.value('component.el-message-box.delete.success'));
                     const index = categoriesRef.value.indexOf(row);
                     categoriesRef.value.splice(index, 1);
                   } else {
-                    ElMessage.error($t.value('component.el-message-box.delete.fail'));
+                    ElMessage.error($tRef.value('component.el-message-box.delete.fail'));
                   }
                 }
             );
       }
   ).catch(
       () => {
-        ElMessage.info($t.value('component.el-message-box.delete.cancel'));
+        ElMessage.info($tRef.value('component.el-message-box.delete.cancel'));
       }
   );
 };
@@ -76,22 +90,27 @@ const deleteRow = (row: any) => {
   </el-table>
 
   <el-dialog
-      v-model="dialogVisible"
-      title="Tips"
+      v-model="isDialogVisible"
+      :title="$t('page.management.category.edit')"
   >
-    <el-form :model="form">
+    <el-form
+        :model="formData"
+        :label-width="'10%'"
+    >
       <el-form-item label="id">
-        <el-input v-model="form.id"/>
+        <el-input disabled v-model="formData.id"/>
       </el-form-item>
       <el-form-item label="name">
-        <el-input v-model="form.name"/>
+        <el-input v-model="formData.name"/>
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false">
-          Confirm
+        <el-button @click="isDialogVisible = false">
+          {{ $tRef('common.cancel') }}
+        </el-button>
+        <el-button type="primary" plain @click="editConfirm()">
+          {{ $tRef('common.confirm') }}
         </el-button>
       </div>
     </template>

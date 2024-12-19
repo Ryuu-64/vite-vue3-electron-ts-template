@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, toRaw} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useI18n} from "vue-i18n";
 import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColumn.vue";
@@ -37,8 +37,8 @@ const editConfirm = async () => {
   }
 
   // avoid Electron Structured Clone error
-  const deepCloneFormCategory: Category = deepClone(formCategory.value);
-  await window.electronAPI.categoryAPI.updateCategory(deepCloneFormCategory);
+  const rawCategory: Category = toRaw(formCategory.value);
+  await window.electronAPI.categoryAPI.updateCategory(rawCategory);
   currentRow.name = formCategory.value.name;
   ElMessage.success($tRef.value('component.el-message-box.edit.success'));
 };

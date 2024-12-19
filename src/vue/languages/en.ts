@@ -3,6 +3,13 @@ export default {
         'warning': 'Warning',
         'confirm': 'Confirm',
         'cancel': 'Cancel',
+        'action': {
+            'failed': {
+                'edit': {
+                    'no-change': 'Edit failed because there were no changes in the data before and after the edit.'
+                }
+            }
+        }
     },
     'switch-language': 'switch language',
     'color-theme-mode': 'color theme mode',
@@ -26,9 +33,14 @@ export default {
         'el-message-box': {
             'delete': {
                 'message': 'This action will permanently delete the file. Do you wish to continue?',
-                'success': 'Deleted successfully.',
-                'fail': 'Delete failed.',
-                'cancel': 'Delete canceled.'
+                'success': 'Deleted successfully',
+                'fail': 'Delete failed',
+                'cancel': 'Delete canceled'
+            },
+            'edit': {
+                'success': 'Edit successfully',
+                'fail': 'Edit failed',
+                'cancel': 'Edit canceled'
             }
         }
     },
@@ -36,7 +48,6 @@ export default {
         'management': {
             'category': {
                 'edit': 'Edit Category',
-                'edit-failed': 'Category cannot be modified, data remains unchanged.',
             }
         },
         'import': {

@@ -6,11 +6,11 @@ import ElTableActionColumn from "@/vue/components/table/column/ElTableActionColu
 import {Category} from "@/models/Category";
 import {deepClone} from "@/utils/deep-clone-utils";
 
-const isDialogVisible = ref(false);
-const currentData = ref<Category>({});
-const formData = ref<Category>({});
-const categoriesRef = ref<Category[]>([]);
 const $tRef = ref();
+const isDialogVisible = ref(false);
+const categoriesRef = ref<Category[]>([]);
+const formCategory = ref<Category>({});
+let currentRow: Category | null = null;
 
 onMounted(async () => {
   let {t} = useI18n();
@@ -18,28 +18,38 @@ onMounted(async () => {
   categoriesRef.value = await window.electronAPI.categoryAPI.findAllCategoriesWithParent();
 });
 
-const editConfirm = async () => {
-  isDialogVisible.value = false
-  if (formData.value.name === currentData.value.name) {
-    ElMessage.warning($tRef.value('page.management.category.edit-failed'));
-    return;
-  }
-
-  await window.electronAPI.categoryAPI.updateCategory(deepClone(formData.value));
-  ElMessage.success($tRef.value('component.el-message-box.edit.success'));
-};
-
-const viewRow = (row: any) => {
+const viewRow = (row: Category) => {
   console.log(row);
 };
 
+//region edit
 const editRow = (row: Category) => {
-  formData.value = deepClone(row);
-  currentData.value = deepClone(row);
+  currentRow = row;
+  formCategory.value = deepClone(row);
   isDialogVisible.value = true;
 };
 
-const deleteRow = (row: any) => {
+const editConfirm = async () => {
+  isDialogVisible.value = false;
+  if (formCategory.value.name === currentRow.name) {
+    ElMessage.warning($tRef.value('common.action.failed.edit.no-change'));
+    return;
+  }
+
+  // avoid Electron Structured Clone error
+  const deepCloneFormCategory: Category = deepClone(formCategory.value);
+  await window.electronAPI.categoryAPI.updateCategory(deepCloneFormCategory);
+  currentRow.name = formCategory.value.name;
+  ElMessage.success($tRef.value('component.el-message-box.edit.success'));
+};
+
+const editCancel = () => {
+  isDialogVisible.value = false;
+  ElMessage.info($tRef.value('component.el-message-box.edit.cancel'));
+}
+//endregion
+
+const deleteRow = (row: Category) => {
   ElMessageBox.confirm(
       $tRef.value('component.el-message-box.delete.message'),
       $tRef.value('common.warning'),
@@ -94,19 +104,19 @@ const deleteRow = (row: any) => {
       :title="$t('page.management.category.edit')"
   >
     <el-form
-        :model="formData"
+        :model="formCategory"
         :label-width="'10%'"
     >
       <el-form-item label="id">
-        <el-input disabled v-model="formData.id"/>
+        <el-input disabled v-model="formCategory.id"/>
       </el-form-item>
       <el-form-item label="name">
-        <el-input v-model="formData.name"/>
+        <el-input v-model="formCategory.name"/>
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="isDialogVisible = false">
+        <el-button @click="editCancel()">
           {{ $tRef('common.cancel') }}
         </el-button>
         <el-button type="primary" plain @click="editConfirm()">
